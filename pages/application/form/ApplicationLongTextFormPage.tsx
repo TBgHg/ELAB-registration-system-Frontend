@@ -1,4 +1,9 @@
+import { observer } from "mobx-react";
 import React from "react";
+import { StyleSheet, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+
+import { useFocusEffect } from "@react-navigation/native";
 import {
   Icon,
   Input,
@@ -7,16 +12,13 @@ import {
   TopNavigation,
   TopNavigationAction,
 } from "@ui-kitten/components";
-import { observer } from "mobx-react";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { ApplicationFormNavigatorParamList } from "./ApplicationFormNavigator";
+
 import { titleAlignment } from "../../../components/application/ApplicationHeader";
-import { useFocusEffect } from "@react-navigation/native";
 import { applicationStore } from "../../../lib/store";
 import { getLongTextTranslate } from "../../../lib/store/ApplicationStore";
-import { StyleSheet, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { ApplicationFormNavigatorParamList } from "./ApplicationFormNavigator";
 type ApplicationLongTextFormPageProps = NativeStackScreenProps<
   ApplicationFormNavigatorParamList,
   "ApplicationLongTextFormPage"
@@ -38,12 +40,16 @@ const ApplicationLongTextFormPage = observer(
     const [longText, setLongText] = React.useState("");
     useFocusEffect(
       React.useCallback(() => {
-        setLongText(applicationStore.form.longText[key]);
-        return () => {};
+        setLongText(applicationStore.form.longText[key] as string);
+        return () => {
+          applicationStore.saveForm();
+        };
       }, [])
     );
     React.useEffect(() => {
-      applicationStore.setLongText(key, longText);
+      const query = {};
+      query[key] = longText;
+      applicationStore.setLongText(query);
     }, [longText]);
     const { title, description } = getLongTextTranslate(key);
     return (

@@ -1,16 +1,19 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-import React from "react";
-import { Layout, Text } from "@ui-kitten/components";
-import Header from "../../components/application/ApplicationHeader";
 import { observer } from "mobx-react";
+import React from "react";
 import { StyleSheet } from "react-native";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { ApplicationNavigatorParamList } from "./ApplicationNavigator";
 import { ScrollView } from "react-native-gesture-handler";
-import { applicationStore } from "../../lib/store";
 import QRCode from "react-native-qrcode-svg";
 
+import { Layout, Text } from "@ui-kitten/components";
+
+import Header from "../../components/application/ApplicationHeader";
+import { applicationStore } from "../../lib/store";
+
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { ApplicationNavigatorParamList } from "./ApplicationNavigator";
+import LogoutAction from "../../components/application/LogoutAction";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -63,7 +66,7 @@ const ApplicationCodePage = observer(
           flex: 1,
         }}
       >
-        <Header navigation={navigation} />
+        <Header navigation={navigation} accessoryLeft={<LogoutAction />} />
         <ScrollView>
           <Layout style={styles.container}>
             <Layout>
@@ -97,8 +100,8 @@ const ApplicationCodePage = observer(
                 </Layout>
                 <Layout>
                   <Text category="s1">
-                    {applicationStore.form.name} (
-                    {applicationStore.form.studentId})
+                    {applicationStore.form.name!} (
+                    {applicationStore.form.studentId!})
                   </Text>
 
                   <Text

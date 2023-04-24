@@ -49,7 +49,8 @@ const NavigationSeatSaveAction = observer(
                   );
                   applicationStore.setSelectedRoom(selectedRoom);
                   applicationStore.setStatus("seats_selected");
-                  navigation.navigate("ApplicationCodePage");
+                  applicationStore.saveStatus();
+                  applicationStore.saveSelectedRoom();
                 },
               },
             ]

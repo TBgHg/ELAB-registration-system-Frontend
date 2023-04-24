@@ -1,18 +1,21 @@
-import React from "react";
-import { Button, SafeAreaView as RNSafeAreaView, Platform } from "react-native";
-import { SafeAreaView as SACSafeAreaView } from "react-native-safe-area-context";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { observer } from "mobx-react-lite";
-import LoginPage from "./login/LoginPage";
+import React from "react";
+import { Platform, SafeAreaView as RNSafeAreaView } from "react-native";
+import { SafeAreaView as SACSafeAreaView } from "react-native-safe-area-context";
+
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+// import { userCredentialStore } from "../lib/store";
 import ApplicationNavigator from "./application/ApplicationNavigator";
 import ElabNavigation from "./elab/ElabNavigator";
-import { userCredentialStore } from "../lib/store";
-import { useNavigation } from "@react-navigation/native";
-import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import LoginPage from "./login/LoginPage";
+import { useFocusEffect } from "@react-navigation/native";
+import * as Updates from "expo-updates";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SafeAreaView = Platform.OS === "ios" ? RNSafeAreaView : SACSafeAreaView;
 
-interface RootNavigationParamList {
+interface RootNavigatorParamList {
   LoginPage: undefined;
   ApplicationNavigator: undefined;
   ElabNavigator: undefined;
@@ -26,9 +29,36 @@ interface RootNavigationParamList {
  *  - 不属于科中成员的用户（需要申请） -> ./application/ApplicationIndexPage.tsx
  *  - 未登录 -> ./login/LoginPage.tsx
  */
-const Stack = createNativeStackNavigator<RootNavigationParamList>();
+const Stack = createNativeStackNavigator<RootNavigatorParamList>();
 
 const RootNavigation = observer(() => {
+  React.useEffect(() => {
+    if (__DEV__) {
+      // global.clear = () => {
+      // AsyncStorage.clear().then(() => console.log("Cleared"));
+      // };
+    }
+  });
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!__DEV__) {
+        Updates.checkForUpdateAsync()
+          .then(async (update) => {
+            console.log(update);
+            if (update.isAvailable) {
+              await Updates.fetchUpdateAsync().then(async () => {
+                await Updates.reloadAsync();
+              });
+            }
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      }
+    }, [])
+  );
+  // 在这里进行用户登陆态检测。
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Stack.Navigator
@@ -38,6 +68,8 @@ const RootNavigation = observer(() => {
             headerShown: false,
             // 禁止用户通过手势关闭登录页面
             gestureEnabled: false,
+            headerBackButtonMenuEnabled: false,
+            fullScreenGestureEnabled: false,
           };
         }}
       >
@@ -46,24 +78,14 @@ const RootNavigation = observer(() => {
           component={LoginPage}
           options={{
             presentation: "modal",
-            headerShown: true,
+            headerShown: false,
             title: "登陆",
-            headerLeft: (props) => {
-              type LoginPageScreenNavigationProp = NativeStackNavigationProp<
-                RootNavigationParamList,
-                "LoginPage"
-              >;
-              const navigation = useNavigation<LoginPageScreenNavigationProp>();
-              return (
-                <Button
-                  title="假装登陆"
-                  onPress={() => {
-                    userCredentialStore.access_token = "cool";
-                    navigation.navigate("ElabNavigator");
-                  }}
-                ></Button>
-              );
-            },
+            // headerLeft: (props) => {
+            //   type LoginPageScreenNavigationProp = NativeStackNavigationProp<
+            //     RootNavigationParamList,
+            //     "LoginPage"
+            //   );
+            // },
           }}
         />
         <Stack.Screen
@@ -78,4 +100,4 @@ const RootNavigation = observer(() => {
 
 export default RootNavigation;
 
-export type { RootNavigationParamList };
+export type { RootNavigatorParamList as RootNavigationParamList };

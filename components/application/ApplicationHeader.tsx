@@ -25,7 +25,7 @@ function translateStatus(status?: string) {
     case "checked_in":
       return "等待结果";
   }
-  throw new Error("Unknown application status");
+  return "";
 }
 
 interface HeaderProps<T extends ParamListBase = ApplicationNavigatorParamList> {

@@ -1,17 +1,19 @@
-import React from "react";
-import { Layout, Text } from "@ui-kitten/components";
-import Header from "../../components/application/ApplicationHeader";
 import { observer } from "mobx-react";
+import React from "react";
+import { RefreshControl, ScrollView, StyleSheet } from "react-native";
+
+import { useFocusEffect } from "@react-navigation/native";
+import { Layout, Text } from "@ui-kitten/components";
+
+import { NavigationBackAction } from "../../components/application";
+import Header from "../../components/application/ApplicationHeader";
+import DeadLineCountdown from "../../components/application/DeadLineCountdown";
+import NavigationSeatSaveAction from "../../components/application/NavigationSeatSaveAction";
+import RoomCardGroup from "../../components/application/RoomCardGroup";
+import { applicationStore } from "../../lib/store";
+
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { ApplicationNavigatorParamList } from "./ApplicationNavigator";
-import { RefreshControl, ScrollView, StyleSheet } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
-import { applicationStore } from "../../lib/store";
-import DeadLineCountdown from "../../components/application/DeadLineCountdown";
-import { NavigationBackAction } from "../../components/application";
-import RoomCardGroup from "../../components/application/RoomCardGroup";
-import NavigationSeatSaveAction from "../../components/application/NavigationSeatSaveAction";
-
 type ApplicationSeatSelectionPageProps = NativeStackScreenProps<
   ApplicationNavigatorParamList,
   "ApplicationSeatSelectionPage"
@@ -34,7 +36,6 @@ const ApplicationSeatSelectionPage = observer(
     const [roomIndex, setRoomIndex] = React.useState<number | null>(null);
     useFocusEffect(
       React.useCallback(() => {
-        applicationStore.setStatus("submitted");
         applicationStore.refreshRooms().catch(() => {});
         return () => {};
       }, [])

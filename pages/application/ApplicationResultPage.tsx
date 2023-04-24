@@ -1,6 +1,7 @@
-import React from "react";
-import { Layout, Text } from "@ui-kitten/components";
 import { observer } from "mobx-react";
+import React from "react";
+
+import { Layout, Text } from "@ui-kitten/components";
 
 const ApplicationResultPage = observer(() => {
   return (

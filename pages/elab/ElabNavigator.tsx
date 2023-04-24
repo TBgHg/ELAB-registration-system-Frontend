@@ -1,6 +1,9 @@
 // 使用kitten-ui 的 tabbar进行导航。
 
+import { observer } from "mobx-react-lite";
 import React from "react";
+import { View } from "react-native";
+
 import {
   type BottomTabBarProps,
   createBottomTabNavigator,
@@ -9,23 +12,22 @@ import {
   BottomNavigation,
   BottomNavigationTab,
   Icon,
+  TopNavigation,
 } from "@ui-kitten/components";
-import { observer } from "mobx-react-lite";
+
 import ElabHomePage from "./ElabHomePage";
-import ElabSpacePage from "./ElabSpacePage";
 import ElabUserPage from "./ElabUserPage";
-import { userCredentialStore } from "../../lib/store";
+
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { RootNavigationParamList } from "../RootNavigatior";
-import { useFocusEffect } from "@react-navigation/native";
-import { View } from "react-native";
-
+import { userCredentialStore } from "../../lib/store";
+import SpaceNavigator, { CommonParams } from "./space/SpaceNavigator";
 interface ElabNavigatorParamList {
   ElabHomePage: undefined;
   ElabPostPage: undefined;
-  ElabSpacePage: undefined;
+  SpaceNavigator: undefined | CommonParams;
   ElabUserPage: undefined;
-  [key: string]: undefined;
+  [key: string]: undefined | any;
 }
 
 type ElabNavigatorProps = NativeStackScreenProps<
@@ -75,45 +77,59 @@ const ElabBottomTabBar = ({ navigation, state }: BottomTabBarProps) => {
 };
 
 const ElabNavigator = observer(({ navigation }: ElabNavigatorProps) => {
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     if (userCredentialStore.access_token === "") {
-  //       navigation.navigate("LoginPage");
-  //     }
-  //   }, [navigation])
-  // );
-  useFocusEffect(
-    React.useCallback(() => {
-      const checkSessionStatus = async () => {
-        const sessionStatus = await userCredentialStore.checkSessionStatus();
-        const nextNavigateScreen =
-          sessionStatus === "unauthorized"
-            ? "LoginPage"
-            : sessionStatus === "not_elab_member"
-            ? "ApplicationNavigator"
-            : "ElabNavigation";
-        if (nextNavigateScreen !== "ElabNavigation") {
-          navigation.navigate(nextNavigateScreen);
-        }
-      };
-      checkSessionStatus().catch((error) => {
-        console.error(error);
-      });
-
-      return () => {};
-    }, [navigator, userCredentialStore])
-  );
+  React.useEffect(() => {
+    if (userCredentialStore.status === "done") {
+      switch (userCredentialStore.sessionStatus) {
+        case "not_elab_member":
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "ApplicationNavigator" }],
+          });
+          break;
+        case "unauthorized":
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "LoginPage" }],
+          });
+          break;
+      }
+    }
+  }, [userCredentialStore.sessionStatus, userCredentialStore.status]);
   return (
-    <Tab.Navigator tabBar={(props) => <ElabBottomTabBar {...props} />}>
+    <Tab.Navigator
+      tabBar={(props) => <ElabBottomTabBar {...props} />}
+      screenOptions={{
+        header: (props) => (
+          <TopNavigation
+            title={props.options.title}
+            alignment="center"
+          ></TopNavigation>
+        ),
+      }}
+    >
       <Tab.Screen
         name="ElabHomePage"
         component={ElabHomePage}
         options={{
-          title: "首页",
+          title: "电气创新实践基地",
         }}
       />
-      <Tab.Screen name="ElabSpacePage" component={ElabSpacePage} />
-      <Tab.Screen name="ElabUserPage" component={ElabUserPage} />
+      <Tab.Screen
+        name="SpaceNavigator"
+        options={{
+          title: "空间",
+          headerShown: false,
+        }}
+        component={SpaceNavigator}
+      />
+      <Tab.Screen
+        name="ElabUserPage"
+        options={{
+          title: "我的",
+          headerShown: false,
+        }}
+        component={ElabUserPage}
+      />
     </Tab.Navigator>
   );
 });

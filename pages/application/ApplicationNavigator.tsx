@@ -1,15 +1,19 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
+
 import {
   createNativeStackNavigator,
   type NativeStackScreenProps,
 } from "@react-navigation/native-stack";
-import { observer } from "mobx-react-lite";
-import ApplicationWelcomePage from "./ApplicationWelcomePage";
-import ApplicationFormNavigator from "./form/ApplicationFormNavigator";
-import ApplicationSeatSelectionPage from "./ApplicationSeatSelectionPage";
+
 import ApplicationCodePage from "./ApplicationCodePage";
 import ApplicationResultPage from "./ApplicationResultPage";
+import ApplicationSeatSelectionPage from "./ApplicationSeatSelectionPage";
+import ApplicationWelcomePage from "./ApplicationWelcomePage";
+import ApplicationFormNavigator from "./form/ApplicationFormNavigator";
+
 import type { RootNavigationParamList } from "../RootNavigatior";
+import { applicationStore } from "../../lib/store";
 
 interface ApplicationNavigatorParamList {
   ApplicationWelcomePage: undefined;
@@ -39,6 +43,17 @@ type ApplicationNavigatorProps = NativeStackScreenProps<
  */
 const ApplicationNavigator = observer(
   ({ navigation }: ApplicationNavigatorProps) => {
+    React.useEffect(() => {
+      console.log(applicationStore.status);
+      switch (applicationStore.status) {
+        case "submitted":
+          navigation.navigate("ApplicationSeatSelectionPage");
+          break;
+        case "seats_selected":
+          navigation.navigate("ApplicationCodePage");
+          break;
+      }
+    }, [applicationStore.status]);
     return (
       <Stack.Navigator
         initialRouteName="ApplicationWelcomePage"

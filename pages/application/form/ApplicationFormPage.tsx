@@ -1,30 +1,35 @@
+import { observer } from "mobx-react";
 import React from "react";
+import { Alert, StyleSheet, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+
+import { useFocusEffect } from "@react-navigation/native";
 import {
+  Button,
+  Icon,
   Layout,
   Text,
-  Button,
   TopNavigationAction,
-  Icon,
 } from "@ui-kitten/components";
-import { observer } from "mobx-react";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { ApplicationFormNavigatorParamList } from "./ApplicationFormNavigator";
+
 import {
   ApplicationHeader,
   NavigationBackAction,
 } from "../../../components/application";
-import { Alert, StyleSheet, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import { NameInput } from "../../../components/application/form";
-import StudentIdInput from "../../../components/application/form/StudentIdInput";
-import DepartmentInput from "../../../components/application/form/DepartmentInput";
 import ContactInput from "../../../components/application/form/ContactInput";
-import { applicationStore } from "../../../lib/store";
-import { useFocusEffect } from "@react-navigation/native";
-import type ApplicationStore from "../../../lib/store/ApplicationStore";
-import { getLongTextTranslate } from "../../../lib/store/ApplicationStore";
+import DepartmentInput from "../../../components/application/form/DepartmentInput";
 import GroupInput from "../../../components/application/form/GroupInput";
+import StudentIdInput from "../../../components/application/form/StudentIdInput";
+import { applicationStore } from "../../../lib/store";
+import {
+  getLongTextTranslate,
+  type Group,
+} from "../../../lib/store/ApplicationStore";
 
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { ApplicationFormNavigatorParamList } from "./ApplicationFormNavigator";
+import type ApplicationStore from "../../../lib/store/ApplicationStore";
 type ApplicationFormPageProps = NativeStackScreenProps<
   ApplicationFormNavigatorParamList,
   "ApplicationFormPage"
@@ -43,22 +48,20 @@ const ApplicationFormPage = observer(
     const [studentId, setStudentId] = React.useState("");
     const [department, setDepartment] = React.useState("");
     const [contact, setContact] = React.useState("");
-    const [group, setGroup] = React.useState<"电子组" | "软件组" | "助课组">(
-      "电子组"
-    );
+    const [group, setGroup] = React.useState<"电子组" | "软件组">("电子组");
     useFocusEffect(
       React.useCallback(() => {
-        setName(applicationStore.form.name);
-        setStudentId(applicationStore.form.studentId);
-        setDepartment(applicationStore.form.department);
-        setContact(applicationStore.form.contact);
-        setGroup(applicationStore.form.group);
+        setName(applicationStore.form.name as string);
+        setStudentId(applicationStore.form.studentId as string);
+        setDepartment(applicationStore.form.department as string);
+        setContact(applicationStore.form.contact as string);
+        setGroup(applicationStore.form.group as Group);
         return () => {};
       }, [])
     );
     React.useEffect(() => {
       applicationStore.setForm({ name, studentId, department, contact, group });
-    }, [name, studentId, department, contact]);
+    }, [name, studentId, department, contact, group]);
     return (
       <Layout level="1" style={{ flex: 1 }}>
         <ApplicationHeader
@@ -72,7 +75,8 @@ const ApplicationFormPage = observer(
               }
               onPress={() => {
                 if (applicationStore.isFormValid) {
-                  navigation.navigate("ApplicationSeatSelectionPage");
+                  applicationStore.setStatus("submitted");
+                  applicationStore.saveStatus();
                 } else {
                   Alert.alert("表单不完整", "请填写完整表单后再提交。");
                 }
@@ -104,6 +108,7 @@ const ApplicationFormPage = observer(
                   <Button
                     key={key}
                     onPress={() => {
+                      applicationStore.saveForm();
                       navigation.navigate("ApplicationLongTextFormPage", {
                         key,
                       });

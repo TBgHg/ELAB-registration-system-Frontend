@@ -1,18 +1,21 @@
-import React from "react";
-import { Layout, Text, Button, Divider } from "@ui-kitten/components";
 import { observer } from "mobx-react";
-import { applicationStore } from "../../lib/store";
+import React from "react";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import Header from "../../components/application/ApplicationHeader";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { ApplicationNavigatorParamList } from "./ApplicationNavigator";
 import { useEffectOnce } from "usehooks-ts";
+
+import { Button, Divider, Layout, Text } from "@ui-kitten/components";
+
 import {
   PermissionCard,
   type PermissionCardProps,
 } from "../../components/application";
+import Header from "../../components/application/ApplicationHeader";
+import { applicationStore } from "../../lib/store";
 
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { ApplicationNavigatorParamList } from "./ApplicationNavigator";
+import LogoutAction from "../../components/application/LogoutAction";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -44,7 +47,7 @@ const WelcomeMessage = () => {
   return (
     <Layout>
       <Layout style={styles.title}>
-        <Text category="h1">科中欢迎你！</Text>
+        <Text category="h2">科中欢迎你！</Text>
       </Layout>
       {messageGroups.map((message, index) => (
         <Layout style={styles.textBox} key={index}>
@@ -104,6 +107,7 @@ const ApplicationWelcomePage = observer(
               开始申请
             </Button>
           }
+          accessoryLeft={<LogoutAction />}
         />
         <ScrollView>
           <Layout style={styles.container}>

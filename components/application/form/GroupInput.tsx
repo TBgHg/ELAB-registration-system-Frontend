@@ -1,13 +1,14 @@
 import React from "react";
 import { Layout, Select, SelectItem, IndexPath } from "@ui-kitten/components";
+import type { Group } from "../../../lib/store/ApplicationStore";
 
 interface NameInputProps {
   value: string;
-  onChangeText: (text: "电子组" | "软件组" | "助课组") => void;
+  onChangeText: (text: Group) => void;
   [key: string]: any | undefined;
 }
 
-const groups = ["电子组", "软件组", "助课组"];
+const groups = ["电子组", "软件组"];
 
 const GroupInput = ({ value, onChangeText }: NameInputProps) => {
   const defaultIndex = 0;
@@ -18,7 +19,7 @@ const GroupInput = ({ value, onChangeText }: NameInputProps) => {
       new IndexPath(originalIndex === -1 ? defaultIndex : originalIndex)
     );
     if (originalIndex === -1) {
-      onChangeText(groups[defaultIndex] as "电子组" | "软件组" | "助课组");
+      onChangeText(groups[defaultIndex] as Group);
     }
   }, []);
   return (
@@ -34,9 +35,7 @@ const GroupInput = ({ value, onChangeText }: NameInputProps) => {
         selectedIndex={index}
         onSelect={(targetIndex: IndexPath) => {
           setIndex(targetIndex);
-          onChangeText(
-            groups[targetIndex.row] as "电子组" | "软件组" | "助课组"
-          );
+          onChangeText(groups[targetIndex.row] as Group);
         }}
       >
         {groups.map((faculty, index) => (
