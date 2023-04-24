@@ -1,5 +1,4 @@
 import type { Author } from "./common";
-import type { ResponseBase } from "./server";
 
 interface WikiHead {
   id: string;
@@ -8,7 +7,7 @@ interface WikiHead {
   author: Author;
 }
 
-interface WikiHeadServerResponse extends ResponseBase {
+interface WikiHeadServerResponse {
   wikiHeads: WikiHead[];
 }
 
