@@ -9,6 +9,20 @@ module.exports = function (api) {
           relativeSourceLocation: true,
         },
       ],
+      [
+        "module-resolver",
+        {
+          root: ["./"],
+          alias: {
+            "@/pages": "./pages",
+            "@/libs": "./libs",
+            "@/lib": "./lib",
+            "@/components": "./components",
+            "@/types": "./types",
+            "@/constants": "./constants",
+          },
+        },
+      ],
     ],
   };
 };
