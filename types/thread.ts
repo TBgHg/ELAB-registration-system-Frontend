@@ -1,5 +1,4 @@
 import type { Author } from "./common";
-import type { ResponseBase } from "./server";
 
 interface Comment {
   /**
@@ -24,10 +23,8 @@ interface Comment {
   liked: boolean;
 }
 
-interface CommentServerResponse extends ResponseBase {
-  data: {
-    comments: Comment[];
-  };
+interface CommentServerResponse {
+  comments: Comment[];
 }
 
 interface ThreadHead {
@@ -51,22 +48,12 @@ interface Thread extends ThreadHead {
   summary: string;
 }
 
-interface ThreadHeadServerResponse extends ResponseBase {
-  data: {
-    threadHeads: ThreadHead[];
-  };
+interface ThreadHeadServerResponse {
+  threadHeads: ThreadHead[];
 }
 
-interface ThreadServerResponse extends ResponseBase {
-  data: {
-    thread: Thread;
-  };
-}
-
-interface CommentCountsServerResponse extends ResponseBase {
-  data: {
-    counts: number;
-  };
+interface CommentCountsServerResponse {
+  counts: number;
 }
 
 function createEmptyThreadHead(): ThreadHead {
@@ -95,6 +82,5 @@ export type {
   Thread,
   ThreadHead,
   ThreadHeadServerResponse,
-  ThreadServerResponse,
 };
 export { createEmptyThreadHead, createEmptyComment };

@@ -54,11 +54,9 @@ class ThreadStore {
     const { accessToken } = this.rootStore.user.credential;
     const client = createApiServerClient(accessToken);
     try {
-      const { data }: CommentCountsServerResponse = (
-        await client.head(
-          `/space/${this.rootStore.space.space.id}/thread/${this.threadHead.id}/comments`
-        )
-      ).data;
+      const { data }: { data: CommentCountsServerResponse } = await client.head(
+        `/space/${this.rootStore.space.space.id}/thread/${this.threadHead.id}/comments`
+      );
       this.setCommentsAmount(data.counts);
     } catch (err) {
       throw new Error("在获取评论个数期间发生了错误。", {

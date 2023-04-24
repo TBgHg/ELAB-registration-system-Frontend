@@ -1,11 +1,9 @@
-import type { ResponseBase } from "./server";
-
 type Group = "电子组" | "软件组";
 
 /**
  * 从后端获取的用户附加信息。
  */
-interface UserExtraInfoServerResponse extends ResponseBase {
+interface UserExtraInfoServerResponse {
   // 暂且先这样写，可能以后会有变动。
   data: User;
 }

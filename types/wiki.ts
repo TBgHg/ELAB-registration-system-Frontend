@@ -9,19 +9,11 @@ interface WikiHead {
 }
 
 interface WikiHeadServerResponse extends ResponseBase {
-  data: {
-    wikiHeads: WikiHead[];
-  };
+  wikiHeads: WikiHead[];
 }
 
 interface Wiki extends WikiHead {
   content: string;
 }
 
-interface WikiServerResponse extends ResponseBase {
-  data: {
-    wiki: Wiki;
-  };
-}
-
-export type { WikiHead, WikiHeadServerResponse, Wiki, WikiServerResponse };
+export type { WikiHead, WikiHeadServerResponse, Wiki };

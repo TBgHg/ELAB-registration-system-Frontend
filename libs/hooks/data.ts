@@ -1,14 +1,9 @@
-import type {
-  Comment,
-  CommentServerResponse,
-  ThreadServerResponse,
-} from "@/types/thread";
+import type { Space } from "@/types/space";
+import type { Comment, CommentServerResponse, Thread } from "@/types/thread";
 import useSWR from "swr";
 import useSWRInfinite from "swr/infinite";
 
 import { createApiServerClient } from "../client";
-
-import type { SpaceServerResponse } from "@/types/space";
 
 /**
  * 根据空间ID，获取空间
@@ -16,8 +11,8 @@ import type { SpaceServerResponse } from "@/types/space";
 function useSpace(id: string, accessToken: string) {
   return useSWR([`/space/${id}`, accessToken], async ([url, accessToken]) => {
     const client = createApiServerClient(accessToken);
-    const { data }: SpaceServerResponse = (await client.get(url)).data;
-    return data.space;
+    const { data }: { data: Space } = await client.get(url);
+    return data;
   });
 }
 
@@ -34,8 +29,8 @@ function useThread(id: string, spaceId: string, accessToken: string) {
     [`/space/${spaceId}/thread/${id}`, accessToken],
     async ([url, _accessToken]: string[]) => {
       const client = createApiServerClient(_accessToken);
-      const { data }: ThreadServerResponse = (await client.get(url)).data;
-      return data.thread;
+      const { data }: { data: Thread } = await client.get(url);
+      return data;
     }
   );
 }
@@ -61,7 +56,7 @@ function useComments(id: string, spaceId: string, accessToken: string) {
     },
     async ([url, _accessToken]: string[]) => {
       const client = createApiServerClient(_accessToken);
-      const { data }: CommentServerResponse = (await client.get(url)).data;
+      const { data }: { data: CommentServerResponse } = await client.get(url);
       return data.comments;
     }
   );
