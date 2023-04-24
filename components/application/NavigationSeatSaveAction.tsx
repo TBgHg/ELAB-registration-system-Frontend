@@ -5,7 +5,7 @@ import { observer } from "mobx-react";
 import React from "react";
 import { Alert, View } from "react-native";
 import { applicationStore } from "../../lib/store";
-import type { ApplicationNavigatorParamList } from "../../pages/application/ApplicationNavigator";
+import type { ApplicationNavigatorParamList } from "../../pages/application/Navigator";
 
 interface NavigationSeatSaveActionProps<T extends ParamListBase> {
   roomIndex: number | null;

@@ -28,7 +28,7 @@ import {
 } from "../../../lib/store/ApplicationStore";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { ApplicationFormNavigatorParamList } from "./ApplicationFormNavigator";
+import type { ApplicationFormNavigatorParamList } from "./FormNavigator";
 import type ApplicationStore from "../../../lib/store/ApplicationStore";
 type ApplicationFormPageProps = NativeStackScreenProps<
   ApplicationFormNavigatorParamList,

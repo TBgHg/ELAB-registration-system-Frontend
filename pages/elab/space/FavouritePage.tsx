@@ -1,6 +1,8 @@
 import { observer } from "mobx-react";
 import React from "react";
+import { StyleSheet } from "react-native";
 
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {
   Button,
   Layout,
@@ -9,13 +11,12 @@ import {
   Text,
   TopNavigation,
 } from "@ui-kitten/components";
-import HeaderBackAction from "../../../components/elab/space/HeaderBackAction";
-import { StyleSheet } from "react-native";
-import HeaderCloseAction from "../../../components/elab/space/HeaderCloseAction";
-import { spaceStore } from "../../../lib/store";
-import { PageType } from "../../../lib/store/ElabStore";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { SpaceNavigatorParamList } from "./SpaceNavigator";
+
+// import HeaderBackAction from "../../../components/elab/space/HeaderBackAction";
+import HeaderCloseAction from "@/components/elab/space/HeaderCloseAction";
+import { spaceStore } from "@/lib/store";
+import type { PageType } from "@/lib/store/ElabStore";
+import type { SpaceNavigatorParamList } from "./SpaceNavigator";
 
 const styles = StyleSheet.create({
   container: {

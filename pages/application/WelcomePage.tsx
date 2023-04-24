@@ -11,11 +11,11 @@ import {
   type PermissionCardProps,
 } from "../../components/application";
 import Header from "../../components/application/ApplicationHeader";
+import LogoutAction from "../../components/application/LogoutAction";
 import { applicationStore } from "../../lib/store";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { ApplicationNavigatorParamList } from "./ApplicationNavigator";
-import LogoutAction from "../../components/application/LogoutAction";
+import type { ApplicationNavigatorParamList } from "./Navigator";
 const styles = StyleSheet.create({
   container: {
     flex: 1,

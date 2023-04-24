@@ -1,13 +1,14 @@
 import React from "react";
-
 import { StyleSheet } from "react-native";
-import { Avatar, Layout, Text, TopNavigation } from "@ui-kitten/components";
+
 import { useFocusEffect } from "@react-navigation/native";
+import { Avatar, Layout, Text, TopNavigation } from "@ui-kitten/components";
+
+import LogoutAction from "../../components/application/LogoutAction";
+import { userCredentialStore } from "../../lib/store";
+
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { ElabNavigatorParamList } from "./ElabNavigator";
-import { userCredentialStore } from "../../lib/store";
-import LogoutAction from "../../components/application/LogoutAction";
-
 type ElabUserPageProps = NativeStackScreenProps<ElabNavigatorParamList>;
 
 const styles = StyleSheet.create({
@@ -26,7 +27,7 @@ const ElabUserPage = ({ navigation }: ElabUserPageProps) => {
     }, [userCredentialStore.username])
   );
   return (
-    <Layout style={{ flex: 1 }}>
+    <Layout style={styles.container}>
       <TopNavigation
         title="我"
         alignment="center"

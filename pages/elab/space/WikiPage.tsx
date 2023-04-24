@@ -1,15 +1,16 @@
+import marked from "marked";
 import { observer } from "mobx-react";
 import React from "react";
-
-import { Avatar, Layout, Text, TopNavigation } from "@ui-kitten/components";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { SpaceNavigatorParamList } from "./SpaceNavigator";
-import marked from "marked";
-import { spaceStore } from "../../../lib/store";
-import { Alert, StyleSheet, ScrollView, Dimensions, Image } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
+import { Alert, Dimensions, ScrollView, StyleSheet } from "react-native";
 import RenderHTML from "react-native-render-html";
 
+import { useFocusEffect } from "@react-navigation/native";
+import { Avatar, Layout, Text } from "@ui-kitten/components";
+
+import { spaceStore } from "@/lib/store";
+
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { SpaceNavigatorParamList } from "./SpaceNavigator";
 type WikiPageProps = NativeStackScreenProps<
   SpaceNavigatorParamList,
   "WikiPage"

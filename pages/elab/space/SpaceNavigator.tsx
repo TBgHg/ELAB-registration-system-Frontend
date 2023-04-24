@@ -1,31 +1,33 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
+
 import {
   createNativeStackNavigator,
   type NativeStackScreenProps,
 } from "@react-navigation/native-stack";
+import { TopNavigation } from "@ui-kitten/components";
+
+import HeaderBackAction from "@/components/elab/space/HeaderBackAction";
+import HeaderNewPostAction from "@/components/elab/space/HeaderNewPostAction";
+import HeaderNewSpaceAction from "@/components/elab/space/HeaderNewSpaceAction";
+import { spaceStore } from "@/lib/store";
+import type { ElabNavigatorParamList } from "../ElabNavigator";
+import CreatePostPage from "./CreatePostPage";
+import CreateSpacePage from "./CreateSpacePage";
+import FavouritePage from "./FavouritePage";
+import NotificationPage from "./NotificationPage";
+import PostPage from "./PostPage";
+import SpaceHomePage from "./SpaceHomePage";
+import SpaceMemberPage from "./SpaceMemberPage";
+import SpacePage from "./SpacePage";
+import WikiPage from "./WikiPage";
+
 import type {
   FileSystemNavigatorParams,
   PageType,
   PostNavigatorParams,
   WikiNavigatorParams,
-} from "../../../lib/store/ElabStore";
-import { TopNavigation } from "@ui-kitten/components";
-import SpaceHomePage from "./SpaceHomePage";
-import PostPage from "./PostPage";
-import NotificationPage from "./NotificationPage";
-import WikiPage from "./WikiPage";
-import FavouritePage from "./FavouritePage";
-import HeaderBackAction from "../../../components/elab/space/HeaderBackAction";
-import { type ElabNavigatorParamList } from "../ElabNavigator";
-import { spaceStore } from "../../../lib/store";
-import { observer } from "mobx-react-lite";
-import SpacePage from "./SpacePage";
-import SpaceMemberPage from "./SpaceMemberPage";
-import CreateSpacePage from "./CreateSpacePage";
-import HeaderNewSpaceAction from "../../../components/elab/space/HeaderNewSpaceAction";
-import CreatePostPage from "./CreatePostPage";
-import HeaderNewPostAction from "../../../components/elab/space/HeaderNewPostAction";
-
+} from "@/lib/store/ElabStore";
 interface NotificationNavigatorParams {
   type: "notification";
 }

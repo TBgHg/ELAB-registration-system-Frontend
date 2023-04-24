@@ -3,7 +3,7 @@ import { Spinner, TopNavigation, Text } from "@ui-kitten/components";
 import { applicationStore } from "../../lib/store";
 import { observer } from "mobx-react-lite";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import type { ApplicationNavigatorParamList } from "../../pages/application/ApplicationNavigator";
+import type { ApplicationNavigatorParamList } from "../../pages/application/Navigator";
 import type { RenderProp } from "@ui-kitten/components/devsupport";
 import type { ParamListBase } from "@react-navigation/native";
 

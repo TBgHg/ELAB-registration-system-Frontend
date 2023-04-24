@@ -1,15 +1,16 @@
 import { observer } from "mobx-react";
 import React from "react";
-
-import { Layout, Text } from "@ui-kitten/components";
-import { spaceStore } from "../../../lib/store";
-import { useFocusEffect } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import SpaceList from "../../../components/elab/space/SpaceList";
-import { type NativeStackScreenProps } from "@react-navigation/native-stack";
-import { type SpaceNavigatorParamList } from "./SpaceNavigator";
-import HomeFastAction from "../../../components/elab/HomeFastAction";
+
+import { useFocusEffect } from "@react-navigation/native";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Layout, Text } from "@ui-kitten/components";
+
+import HomeFastAction from "@/components/elab/HomeFastAction";
+import SpaceList from "@/components/elab/space/SpaceList";
+import { spaceStore } from "@/lib/store";
+import type { SpaceNavigatorParamList } from "./SpaceNavigator";
 
 const styles = StyleSheet.create({
   container: {

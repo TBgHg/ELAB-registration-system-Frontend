@@ -15,13 +15,13 @@ import {
   TopNavigation,
 } from "@ui-kitten/components";
 
-import ElabHomePage from "./ElabHomePage";
-import ElabUserPage from "./ElabUserPage";
+import { userCredentialStore } from "@/lib/store";
+import ElabHomePage from "./HomePage";
+import SpaceNavigator, { type CommonParams } from "./space/SpaceNavigator";
+import ElabUserPage from "./UserPage";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { RootNavigationParamList } from "../RootNavigatior";
-import { userCredentialStore } from "../../lib/store";
-import SpaceNavigator, { CommonParams } from "./space/SpaceNavigator";
 interface ElabNavigatorParamList {
   ElabHomePage: undefined;
   ElabPostPage: undefined;

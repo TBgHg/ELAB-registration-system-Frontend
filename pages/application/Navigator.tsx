@@ -6,15 +6,14 @@ import {
   type NativeStackScreenProps,
 } from "@react-navigation/native-stack";
 
-import ApplicationCodePage from "./ApplicationCodePage";
-import ApplicationResultPage from "./ApplicationResultPage";
-import ApplicationSeatSelectionPage from "./ApplicationSeatSelectionPage";
-import ApplicationWelcomePage from "./ApplicationWelcomePage";
-import ApplicationFormNavigator from "./form/ApplicationFormNavigator";
+import { applicationStore } from "../../lib/store";
+import ApplicationCodePage from "./CodePage";
+import ApplicationResultPage from "./ResultPage";
+import ApplicationSeatSelectionPage from "./SeatSelectionPage";
+import ApplicationWelcomePage from "./WelcomePage";
+import ApplicationFormNavigator from "./form/FormNavigator";
 
 import type { RootNavigationParamList } from "../RootNavigatior";
-import { applicationStore } from "../../lib/store";
-
 interface ApplicationNavigatorParamList {
   ApplicationWelcomePage: undefined;
   ApplicationFormPage: undefined;

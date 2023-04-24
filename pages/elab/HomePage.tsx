@@ -1,18 +1,16 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
+import { ScrollView, StyleSheet } from "react-native";
 
-import { Button, Layout, Text } from "@ui-kitten/components";
+import { Layout, Text } from "@ui-kitten/components";
 
-import { userCredentialStore } from "../../lib/store";
+import RemindCardList from "@/components/elab/RemindCardList";
+import TodayWikiCard from "@/components/elab/TodayWikiCard";
+import { userCredentialStore } from "@/lib/store";
 
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import type { ElabNavigatorParamList } from "./ElabNavigator";
-import { ScrollView, StyleSheet } from "react-native";
-import RemindCardList from "../../components/elab/RemindCardList";
-import HomeFastAction from "../../components/elab/HomeFastAction";
-import axios from "axios";
-import TodayWikiCard from "../../components/elab/TodayWikiCard";
-type ElabHomePageProps = BottomTabScreenProps<
+type HomePageProps = BottomTabScreenProps<
   ElabNavigatorParamList,
   "ElabHomePage"
 >;
@@ -30,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ElabHomePage = ({ navigation }: ElabHomePageProps) => {
+const ElabHomePage = ({ navigation }: HomePageProps) => {
   return (
     <Layout style={styles.container}>
       <ScrollView>

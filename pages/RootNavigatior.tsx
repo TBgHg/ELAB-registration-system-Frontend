@@ -1,16 +1,17 @@
+import * as Updates from "expo-updates";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Platform, SafeAreaView as RNSafeAreaView } from "react-native";
 import { SafeAreaView as SACSafeAreaView } from "react-native-safe-area-context";
 
+import { useFocusEffect } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // import { userCredentialStore } from "../lib/store";
-import ApplicationNavigator from "./application/ApplicationNavigator";
+import ApplicationNavigator from "./application/Navigator";
 import ElabNavigation from "./elab/ElabNavigator";
 import LoginPage from "./login/LoginPage";
-import { useFocusEffect } from "@react-navigation/native";
-import * as Updates from "expo-updates";
+
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SafeAreaView = Platform.OS === "ios" ? RNSafeAreaView : SACSafeAreaView;

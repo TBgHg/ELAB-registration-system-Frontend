@@ -3,8 +3,8 @@ import React from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import ApplicationFormPage from "./ApplicationFormPage";
-import ApplicationLongTextFormPage from "./ApplicationLongTextFormPage";
+import ApplicationFormPage from "./FormPage";
+import ApplicationLongTextFormPage from "./LongTextFormPage";
 
 import type ApplicationStore from "../../../lib/store/ApplicationStore";
 // import type { ApplicationNavigatorParamList } from "../ApplicationNavigator";

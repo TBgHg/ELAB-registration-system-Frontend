@@ -1,20 +1,21 @@
+import { observer } from "mobx-react-lite";
 // 与SpacePage同理，创建一个临时页面
 import React from "react";
+import { ScrollView, StyleSheet } from "react-native";
+
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {
-  Avatar,
   Layout,
   List,
   ListItem,
   Text,
   TopNavigation,
 } from "@ui-kitten/components";
-import { observer } from "mobx-react-lite";
-import { type NativeStackScreenProps } from "@react-navigation/native-stack";
-import { type SpaceNavigatorParamList } from "./SpaceNavigator";
-import { type Space } from "../../../lib/store/SpaceStore";
-import { spaceStore } from "../../../lib/store";
-import HeaderCloseAction from "../../../components/elab/space/HeaderCloseAction";
-import { ScrollView, StyleSheet } from "react-native";
+
+import HeaderCloseAction from "@/components/elab/space/HeaderCloseAction";
+import { spaceStore } from "@/lib/store";
+import type { Space } from "@/lib/store/SpaceStore";
+import type { SpaceNavigatorParamList } from "./SpaceNavigator";
 
 type SpaceMemberPageProps = NativeStackScreenProps<
   SpaceNavigatorParamList,
@@ -28,9 +29,6 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingHorizontal: 16,
-  },
-  itemImage: {
-    tintColor: null,
   },
 });
 

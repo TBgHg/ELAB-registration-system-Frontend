@@ -1,6 +1,15 @@
 {
     "compilerOptions": {
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "paths": {
+            "@/pages/*": ["./pages/*"],
+            "@/libs/*": ["./libs/*"],
+            "@/lib/*": ["./lib/*"],
+            "@/components/*": ["./components/*"],
+            "@/types/*": ["./types/*"],
+            "@/constants/*": ["./constants/*"]
+        }
     },
+
     "extends": "expo/tsconfig.base"
 }

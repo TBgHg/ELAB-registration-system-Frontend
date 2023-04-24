@@ -2,15 +2,16 @@
 
 import { observer } from "mobx-react";
 import React from "react";
-
-import { Avatar, Card, Layout, Text } from "@ui-kitten/components";
-import { useFocusEffect } from "@react-navigation/native";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { SpaceNavigatorParamList } from "./SpaceNavigator";
 import { Alert, Pressable, StyleSheet } from "react-native";
-import { spaceStore } from "../../../lib/store";
 import { ScrollView } from "react-native-gesture-handler";
 
+import { useFocusEffect } from "@react-navigation/native";
+import { Avatar, Card, Layout, Text } from "@ui-kitten/components";
+
+import { spaceStore } from "@/lib/store";
+
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { SpaceNavigatorParamList } from "./SpaceNavigator";
 type SpacePageProps = NativeStackScreenProps<
   SpaceNavigatorParamList,
   "SpacePage"

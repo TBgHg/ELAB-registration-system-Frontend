@@ -13,7 +13,7 @@ import RoomCardGroup from "../../components/application/RoomCardGroup";
 import { applicationStore } from "../../lib/store";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { ApplicationNavigatorParamList } from "./ApplicationNavigator";
+import type { ApplicationNavigatorParamList } from "./Navigator";
 type ApplicationSeatSelectionPageProps = NativeStackScreenProps<
   ApplicationNavigatorParamList,
   "ApplicationSeatSelectionPage"

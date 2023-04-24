@@ -18,7 +18,7 @@ import { applicationStore } from "../../../lib/store";
 import { getLongTextTranslate } from "../../../lib/store/ApplicationStore";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { ApplicationFormNavigatorParamList } from "./ApplicationFormNavigator";
+import type { ApplicationFormNavigatorParamList } from "./FormNavigator";
 type ApplicationLongTextFormPageProps = NativeStackScreenProps<
   ApplicationFormNavigatorParamList,
   "ApplicationLongTextFormPage"

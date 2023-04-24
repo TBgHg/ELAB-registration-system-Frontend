@@ -1,16 +1,18 @@
-import { useNavigation } from "@react-navigation/native";
-import {
-  Layout,
-  TopNavigation,
-  Text,
-  Input,
-  TopNavigationAction,
-  Icon,
-} from "@ui-kitten/components";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import HeaderCloseAction from "../../../components/elab/space/HeaderCloseAction";
-import { spaceStore } from "../../../lib/store";
+
+import { useNavigation } from "@react-navigation/native";
+import {
+  Icon,
+  Input,
+  Layout,
+  Text,
+  TopNavigation,
+  TopNavigationAction,
+} from "@ui-kitten/components";
+
+import HeaderCloseAction from "@/components/elab/space/HeaderCloseAction";
+import { spaceStore } from "@/lib/store";
 
 const styles = StyleSheet.create({
   container: {

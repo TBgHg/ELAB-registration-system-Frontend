@@ -1,18 +1,19 @@
 import { observer } from "mobx-react";
 import React from "react";
-
 import { StyleSheet } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+
 import {
-  Layout,
   Button,
+  Layout,
   List,
   ListItem,
   Text,
   TopNavigation,
 } from "@ui-kitten/components";
-import HeaderCloseAction from "../../../components/elab/space/HeaderCloseAction";
-import { spaceStore } from "../../../lib/store";
-import { ScrollView } from "react-native-gesture-handler";
+
+import HeaderCloseAction from "@/components/elab/space/HeaderCloseAction";
+import { spaceStore } from "@/lib/store";
 
 const styles = StyleSheet.create({
   container: {
