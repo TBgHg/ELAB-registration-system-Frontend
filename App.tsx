@@ -15,8 +15,9 @@ import { Alert } from "react-native";
 
 export default observer(() => {
   useUpdateEvents((event) => {
-    Alert.prompt("update_event_trigger, next");
+    Alert.alert("update_event_trigger");
     if (event.type === UpdateEventType.UPDATE_AVAILABLE) {
+      Alert.alert("update_event_trigger, update");
       console.log("Update available");
       console.log(event.manifest);
       fetchUpdateAsync()
