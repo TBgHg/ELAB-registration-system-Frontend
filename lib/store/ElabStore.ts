@@ -98,7 +98,7 @@ class ElabStore {
       imageSource: require("../../assets/carousel/1.jpg"),
     },
     {
-      title: "计算机设计大赛申报即将截止",
+      title: "计算机设计大赛申报已经截止",
       imageSource: require("../../assets/carousel/2.jpg"),
     },
   ];
@@ -108,7 +108,7 @@ class ElabStore {
       type: "deadline",
       content: {
         title: "竞赛-2023年计算机设计大赛（校内选拔）",
-        prompt: "竞赛申报即将截止",
+        prompt: "竞赛申报已经截止",
         backgroundColor: "#015B90",
         textColor: "white",
         description: "请确认您的申报材料准确无误。\n截止时间：2023年4月20日",
