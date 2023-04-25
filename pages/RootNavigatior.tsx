@@ -1,10 +1,8 @@
-import * as Updates from "expo-updates";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Platform, SafeAreaView as RNSafeAreaView } from "react-native";
 import { SafeAreaView as SACSafeAreaView } from "react-native-safe-area-context";
 
-import { useFocusEffect } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // import { userCredentialStore } from "../lib/store";
@@ -33,32 +31,6 @@ interface RootNavigatorParamList {
 const Stack = createNativeStackNavigator<RootNavigatorParamList>();
 
 const RootNavigation = observer(() => {
-  React.useEffect(() => {
-    if (__DEV__) {
-      // global.clear = () => {
-      // AsyncStorage.clear().then(() => console.log("Cleared"));
-      // };
-    }
-  });
-
-  useFocusEffect(
-    React.useCallback(() => {
-      if (!__DEV__) {
-        Updates.checkForUpdateAsync()
-          .then(async (update) => {
-            console.log(update);
-            if (update.isAvailable) {
-              await Updates.fetchUpdateAsync().then(async () => {
-                await Updates.reloadAsync();
-              });
-            }
-          })
-          .catch((e) => {
-            console.error(e);
-          });
-      }
-    }, [])
-  );
   // 在这里进行用户登陆态检测。
   return (
     <SafeAreaView style={{ flex: 1 }}>
