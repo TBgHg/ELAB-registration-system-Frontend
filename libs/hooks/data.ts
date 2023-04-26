@@ -3,7 +3,7 @@ import type { Comment, CommentServerResponse, Thread } from "@/types/thread";
 import useSWR from "swr";
 import useSWRInfinite from "swr/infinite";
 
-import { createApiServerClient } from "../client";
+import { createApiServerClient } from "../client/v1";
 
 /**
  * 根据空间ID，获取空间

@@ -3,7 +3,7 @@ module.exports = {
   slug: "elab-app",
   version: "1.0.0",
   orientation: "portrait",
-  icon: "./assets/icon.png",
+  icon: "./assets/SevenRealms.png",
   userInterfaceStyle: "light",
   splash: {
     image: "./assets/splash.png",
@@ -18,7 +18,7 @@ module.exports = {
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: "./assets/adaptive-icon.png",
+      foregroundImage: "./assets/SevenRealmsAdaptive.png",
       backgroundColor: "#ffffff",
     },
     package: "com.zeithrold.elabapp",

@@ -8,7 +8,8 @@
             "@/lib/*": ["./lib/*"],
             "@/components/*": ["./components/*"],
             "@/types/*": ["./types/*"],
-            "@/constants/*": ["./constants/*"]
+            "@/constants/*": ["./constants/*"],
+            "@/navigators/*": ["./navigators/*"]
         }
     },
 

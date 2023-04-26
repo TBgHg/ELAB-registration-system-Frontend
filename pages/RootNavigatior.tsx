@@ -6,7 +6,7 @@ import { SafeAreaView as SACSafeAreaView } from "react-native-safe-area-context"
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // import { userCredentialStore } from "../lib/store";
-import ApplicationNavigator from "./application/Navigator";
+import ApplicationNavigator from "./old/application/Navigator";
 import ElabNavigation from "./elab/ElabNavigator";
 import LoginPage from "./login/LoginPage";
 

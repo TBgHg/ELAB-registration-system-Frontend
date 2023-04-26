@@ -13,6 +13,10 @@ interface InterviewRoom {
   place: string;
 }
 
+interface FormContentPageParam {
+  preview?: boolean;
+}
+
 function createEmptyLongTextForm(): LongTextForm {
   return {
     reason: "",
@@ -32,5 +36,5 @@ function createEmptyInterviewRoom(): InterviewRoom {
   };
 }
 
-export type { LongTextForm, InterviewRoom };
+export type { LongTextForm, InterviewRoom, FormContentPageParam };
 export { createEmptyInterviewRoom, createEmptyLongTextForm };

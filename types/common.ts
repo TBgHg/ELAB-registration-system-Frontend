@@ -9,4 +9,22 @@ interface ContentTimeInfo {
   editedAt?: Date;
 }
 
-export type { Author, ContentTimeInfo };
+type ContentType = "wiki" | "thread" | "comment" | "space";
+type ContentCreatePageType = "create" | "edit";
+
+interface ContentPageParam {
+  id: string;
+}
+
+interface ContentCreatePageParam {
+  contentType: ContentType;
+  pageType: ContentCreatePageType;
+}
+
+export type {
+  Author,
+  ContentTimeInfo,
+  ContentType,
+  ContentCreatePageParam,
+  ContentPageParam,
+};

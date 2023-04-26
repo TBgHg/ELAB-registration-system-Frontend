@@ -20,6 +20,7 @@ module.exports = function (api) {
             "@/components": "./components",
             "@/types": "./types",
             "@/constants": "./constants",
+            "@/navigators": "./navigators",
           },
         },
       ],
