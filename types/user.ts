@@ -29,6 +29,10 @@ interface User {
    * 是否为成员
    */
   isMember: boolean;
+  /**
+   * 联系方式
+   */
+  contact: string;
 }
 
 interface TokenBase {
@@ -128,6 +132,7 @@ function createEmptyUser(): User {
     className: "",
     group: "电子组",
     isMember: false,
+    contact: "",
   };
 }
 
