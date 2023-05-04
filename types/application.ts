@@ -10,7 +10,7 @@ interface InterviewRoom {
   time: Date;
   capacity: number;
   currentOccupancy: number;
-  place: string;
+  location: string;
 }
 
 interface FormContentPageParam {
@@ -32,7 +32,7 @@ function createEmptyInterviewRoom(): InterviewRoom {
     time: new Date(),
     capacity: 0,
     currentOccupancy: 0,
-    place: "",
+    location: "",
   };
 }
 

@@ -5,6 +5,7 @@ interface WikiHead {
   title: string;
   summary: string;
   author: Author;
+  lastUpdateAt: Date;
 }
 
 interface WikiHeadServerResponse {

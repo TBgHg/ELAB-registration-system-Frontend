@@ -33,13 +33,21 @@ interface ThreadHead {
    */
   id: string;
   /**
-   * 帖子的标题，可以留空，以便在后续抓取数据时自动获取。
+   * 帖子的标题。
    */
-  title?: string;
+  title: string;
   /**
-   * 帖子的摘要，可以留空，以便在后续抓取数据时自动获取。
+   * 帖子的摘要。
    */
-  summary?: string;
+  summary: string;
+  /**
+   * 帖子的最后更新时间。
+   */
+  lastUpdateAt: Date;
+  /**
+   * 帖子的作者。
+   */
+  author: Author;
 }
 
 interface Thread extends ThreadHead {
@@ -59,6 +67,14 @@ interface CommentCountsServerResponse {
 function createEmptyThreadHead(): ThreadHead {
   return {
     id: "",
+    title: "",
+    author: {
+      openid: "",
+      name: "",
+      avatar: "",
+    },
+    summary: "",
+    lastUpdateAt: new Date(),
   };
 }
 
