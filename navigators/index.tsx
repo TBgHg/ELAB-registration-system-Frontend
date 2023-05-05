@@ -63,6 +63,7 @@ const RootNavigator = observer(() => {
             fullScreenGestureEnabled: false,
           };
         }}
+        initialRouteName="MainNavigator"
       >
         <Stack.Screen
           name="LoginNavigator"

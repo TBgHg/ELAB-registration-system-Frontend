@@ -1,8 +1,12 @@
+import React from "react";
+
 import type { ContentPageParam } from "@/types/common";
 import type { CompositeScreenProps } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { SpaceNavigatorKey, SpaceNavigatorScreenProps } from "..";
+import WikiListPage from "@/pages/main/tab/space/wiki/WikiListPage";
+import WikiPage from "@/pages/main/tab/space/wiki/WikiPage";
 
 interface WikiNavigatorParamList {
   WikiPage: ContentPageParam;
@@ -18,6 +22,25 @@ type WikiNavigatorScreenProps<T extends WikiNavigatorKey> =
   >;
 
 const Stack = createNativeStackNavigator<WikiNavigatorParamList>();
+
+const WikiNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="WikiListPage"
+        component={WikiListPage}
+        options={{ headerShown: false }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="WikiPage"
+        component={WikiPage}
+        options={{ headerShown: false }}
+      ></Stack.Screen>
+    </Stack.Navigator>
+  );
+};
+
+export default WikiNavigator;
 
 export type {
   WikiNavigatorParamList,

@@ -30,7 +30,17 @@ const Stack = createNativeStackNavigator<MainNavigatorParamList>();
 
 const MainNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={() => {
+        return {
+          headerShown: false,
+          // 禁止用户通过手势关闭登录页面
+          gestureEnabled: false,
+          headerBackButtonMenuEnabled: false,
+          fullScreenGestureEnabled: false,
+        };
+      }}
+    >
       <Stack.Screen name="TabNavigator" component={TabPage}></Stack.Screen>
     </Stack.Navigator>
   );

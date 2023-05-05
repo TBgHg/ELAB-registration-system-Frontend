@@ -13,6 +13,13 @@ interface Space {
   description: string;
 }
 
+type SpacePatchType = "add" | "edit";
+
+interface SpacePatchParam {
+  id?: string;
+  type: SpacePatchType;
+}
+
 function createEmptySpace() {
   return {
     id: "",
@@ -21,5 +28,5 @@ function createEmptySpace() {
   };
 }
 
-export type { Space };
+export type { Space, SpacePatchType, SpacePatchParam };
 export { createEmptySpace };

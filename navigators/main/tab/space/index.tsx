@@ -1,3 +1,5 @@
+import React from "react";
+
 import type { ContentPageParam } from "@/types/common";
 import type {
   CompositeScreenProps,
@@ -9,6 +11,11 @@ import type { TabNavigatorKey, TabNavigatorScreenProps } from "..";
 import type { PopupNavigatorParamList } from "./popup";
 import type { ThreadNavigatorParamList } from "./thread";
 import type { WikiNavigatorParamList } from "./wiki";
+import SpacePage from "@/pages/main/tab/space/SpacePage";
+import HomePage from "@/pages/main/tab/space/HomePage";
+import WikiNavigator from "./wiki";
+import ThreadNavigator from "./thread";
+import PopupNavigator from "./popup";
 
 interface SpaceNavigatorParamList {
   SpaceHomePage: undefined;
@@ -32,6 +39,29 @@ type SpaceNavigatorScreenProps<T extends SpaceNavigatorKey> =
   >;
 
 const Stack = createNativeStackNavigator<SpaceNavigatorParamList>();
+
+const SpaceNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="SpaceHomePage" component={HomePage}></Stack.Screen>
+      <Stack.Screen name="SpacePage" component={SpacePage}></Stack.Screen>
+      <Stack.Screen
+        name="SpaceWikiNavigator"
+        component={WikiNavigator}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="SpaceThreadNavigator"
+        component={ThreadNavigator}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="SpacePopupNavigator"
+        component={PopupNavigator}
+      ></Stack.Screen>
+    </Stack.Navigator>
+  );
+};
+
+export default SpaceNavigator;
 
 export type {
   SpaceNavigatorParamList,

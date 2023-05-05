@@ -60,6 +60,7 @@ const loginButtonOnPress = async ({
   const request = new AuthRequest({
     redirectUri: oidcRedirectUri,
     clientId: oidcClientId,
+    scopes: ["openid", "profile", "email"],
   });
   const { codeChallenge, codeVerifier } = await PKCE.buildCodeAsync();
   request.codeChallenge = codeChallenge;
@@ -74,7 +75,10 @@ const loginButtonOnPress = async ({
     console.error(e);
     Alert.alert("无法启动登录会话", "请检查你的网络连接。");
   }
-  const result = await request.promptAsync(discovery);
+  const result = await request.promptAsync(discovery, {
+    showInRecents: true,
+  });
+  console.log(result);
   if (result.type === "success") {
     store.user.setCredential(result.authentication as Credential);
   }
@@ -85,6 +89,24 @@ const LoginPage = observer(
     // discovery 可能为空值，需要进行判定
     const discovery = useAutoDiscovery(oidcDiscovery);
     const redirectUri = makeRedirectUri();
+    React.useEffect(() => {
+      console.log(store.user.userStatus);
+      if (store.user.userStatus === "authorized") {
+        navigation.navigate("MainNavigator", {
+          screen: "TabNavigator",
+          params: {
+            screen: "HomeNavigator",
+            params: {
+              screen: "HomePage",
+            },
+          },
+        });
+      } else if (store.user.userStatus === "not_elab_member") {
+        navigation.navigate("ApplicationNavigator", {
+          screen: "ApplicationStartPage",
+        });
+      }
+    }, [store.user.userStatus]);
     return (
       <Layout style={{ flex: 1 }}>
         <TopNavigation title="登陆" alignment="center" />
@@ -103,9 +125,15 @@ const LoginPage = observer(
                 loginButtonOnPress({
                   discovery: discovery as DiscoveryDocument,
                   redirectUri,
-                }).catch((err) => {
-                  console.error(err);
-                });
+                })
+                  .then(() => {
+                    console.log(store.user.userStatus);
+                    // navigation.navigate("RootNavigator", {
+                    // });
+                  })
+                  .catch((err) => {
+                    console.error(err);
+                  });
               }}
             >
               点击登录

@@ -33,10 +33,6 @@ const storageKeys = {
   JWT: "elab://user-store/jwt",
 };
 
-const apiEndpoint = {
-  USER: "/user",
-};
-
 /**
  * 存储用户信息的数据仓库。
  * 里面包含了用户信息、登陆凭据信息以及加载状态。
@@ -68,7 +64,7 @@ class UserStore {
    */
   setUser(user: Partial<User>, options?: SetValueOptions) {
     const { withStorage = true } = options ?? {};
-    this.user = { ...user, ...this.user };
+    this.user = Object.assign(this.user, user);
     if (!withStorage) return;
     AsyncStorage.setItem(storageKeys.USER, JSON.stringify(user)).catch(
       (err) => {
@@ -158,29 +154,30 @@ class UserStore {
     const client = new Client(this.credential.accessToken);
     const userInfoPromise = client.user
       .fetchUserInfo(this.jwt.sub)
+      .then((userInfo) => {
+        this.setUser(userInfo);
+      })
       .catch((err) => {
         // userInfo获取失败，因此属于后端出现了问题，直接panic
-        throw new Error("获取用户信息出现错误。", { cause: err });
+        throw new Error("获取后端用户信息出现错误。", { cause: err });
       });
     const longTextFormPromise = client.application
       .fetchLongTextForm()
-      .catch((err) => {
-        if (axios.isAxiosError(err)) {
-          if (err.status === 404) {
-            return createEmptyLongTextForm();
-          }
-          throw new Error("获取长文本表单出现错误。", { cause: err });
+      .then((longTextForm) => {
+        this.setLongTextForm(longTextForm);
+      })
+      .catch(async (err) => {
+        if (
+          axios.isAxiosError(err) &&
+          err.response?.data.error === "long_text_form_not_found"
+        ) {
+          this.setLongTextForm(createEmptyLongTextForm());
+          return;
         }
+        // longTextForm获取失败，因此属于后端出现了问题，直接panic
+        throw new Error("获取后端长文本表单出现错误。", { cause: err });
       });
-    let [userInfo, longTextForm] = await Promise.all([
-      userInfoPromise,
-      longTextFormPromise,
-    ]);
-    if (longTextForm === undefined) {
-      longTextForm = createEmptyLongTextForm();
-    }
-    this.setUser(userInfo);
-    this.setLongTextForm(longTextForm);
+    await Promise.all([userInfoPromise, longTextFormPromise]);
   }
 
   /**
@@ -207,7 +204,7 @@ class UserStore {
       );
       this.setUserInfo(response as UserInfo);
     } catch (err) {
-      throw new Error("获取用户信息出现错误。", { cause: err });
+      throw new Error("获取OIDC用户信息出现错误。", { cause: err });
     }
   }
 
@@ -265,6 +262,12 @@ class UserStore {
       ).toString("utf-8");
       const jwt = JSON.parse(rawJwt);
       this.setJwt(jwt, { withStorage });
+      this.fetchExtraInfo().catch((err) => {
+        throw new Error(
+          "在设置Credential过程中，获取额外用户信息过程中出现错误。",
+          { cause: err }
+        );
+      });
     }
   }
 
@@ -353,13 +356,7 @@ class UserStore {
     this.fetchDataFromCache()
       .then(async () => {
         if (this.credential.accessToken !== "") {
-          return true;
-        }
-        return false;
-      })
-      .then(async (ok) => {
-        if (ok) {
-          await this.fetchUserInfo();
+          await Promise.all([this.fetchUserInfo(), this.fetchExtraInfo()]);
           return true;
         }
         return false;

@@ -1,3 +1,4 @@
+import React from "react";
 import type { ContentCreatePageParam } from "@/types/common";
 import type {
   CompositeScreenProps,
@@ -7,15 +8,22 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { SpaceNavigatorKey, SpaceNavigatorScreenProps } from "..";
 import type { SpaceMemberNavigatorParamList } from "./member";
+import MemberNavigator from "./member";
+import ContentCreatePage from "@/pages/main/tab/space/popup/ContentCreatePage";
+import SearchPage from "@/pages/main/tab/space/popup/SearchPage";
+import type { SpacePatchParam } from "@/types/space";
+import PatchPage from "@/pages/main/tab/space/popup/PatchPage";
 
 interface PopupNavigatorParamList {
   SpaceMemberNavigation: NavigatorScreenParams<SpaceMemberNavigatorParamList>;
   SpaceCreateContentPage: ContentCreatePageParam;
+  SpacePatchPage: SpacePatchParam;
   SpaceSearchPage: undefined;
   [key: string]:
     | undefined
     | NavigatorScreenParams<SpaceMemberNavigatorParamList>
-    | ContentCreatePageParam;
+    | ContentCreatePageParam
+    | SpacePatchParam;
 }
 
 type PopupNavigatorKey = keyof PopupNavigatorParamList & string;
@@ -26,6 +34,35 @@ type PopupNavigatorScreenProps<T extends PopupNavigatorKey> =
   >;
 
 const Stack = createNativeStackNavigator<PopupNavigatorParamList>();
+
+const PopupNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="SpaceMemberNavigation"
+        component={MemberNavigator}
+        options={{ headerShown: false }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="SpaceCreateContentPage"
+        component={ContentCreatePage}
+        options={{ headerShown: false }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="SpaceSearchPage"
+        component={SearchPage}
+        options={{ headerShown: false }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="SpacePatchPage"
+        component={PatchPage}
+        options={{ headerShown: false }}
+      ></Stack.Screen>
+    </Stack.Navigator>
+  );
+};
+
+export default PopupNavigator;
 
 export type {
   PopupNavigatorParamList,

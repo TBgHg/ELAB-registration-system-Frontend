@@ -1,6 +1,5 @@
 import type { User } from "@/types/user";
 import type { Client } from ".";
-import { createApiServerClient } from ".";
 
 class UserClient {
   rootClient: Client;
@@ -8,10 +7,16 @@ class UserClient {
     this.rootClient = rootClient;
   }
 
+  getClient() {
+    const client = this.rootClient.getClient();
+    client.defaults.baseURL = (client.defaults.baseURL as string) + "/user";
+    return client;
+  }
+
   async fetchUserInfo(openid: string): Promise<User> {
     this.rootClient.checkAccessToken();
-    const client = createApiServerClient(this.rootClient.accessToken);
-    const { data } = await client.get(`/user/${openid}`);
+    const client = this.getClient();
+    const { data } = await client.get(`/${openid}`);
     return data;
   }
 }
