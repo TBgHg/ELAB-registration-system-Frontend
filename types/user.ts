@@ -20,7 +20,7 @@ interface User {
   /**
    * 班级
    */
-  className: string;
+  class_name: string;
   /**
    * 所属组别
    */
@@ -28,11 +28,23 @@ interface User {
   /**
    * 是否为成员
    */
-  isMember: boolean;
+  is_elab_member: boolean;
   /**
    * 联系方式
    */
   contact: string;
+  /**
+   * 电子邮箱
+   */
+  email: string;
+  /**
+   * 学号
+   */
+  student_id: string;
+  /**
+   * 其他元数据
+   */
+  meta: any;
 }
 
 interface TokenBase {
@@ -129,10 +141,13 @@ function createEmptyUser(): User {
   return {
     openid: "",
     name: "",
-    className: "",
+    class_name: "",
     group: "电子组",
-    isMember: false,
+    is_elab_member: false,
     contact: "",
+    email: "",
+    student_id: "",
+    meta: {},
   };
 }
 

@@ -1,7 +1,7 @@
 interface LongTextForm {
   reason: string;
   experience: string;
-  selfEvaluation: string;
+  self_evaluation: string;
 }
 
 interface InterviewRoom {
@@ -21,7 +21,7 @@ function createEmptyLongTextForm(): LongTextForm {
   return {
     reason: "",
     experience: "",
-    selfEvaluation: "",
+    self_evaluation: "",
   };
 }
 

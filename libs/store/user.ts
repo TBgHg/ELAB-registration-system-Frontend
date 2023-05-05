@@ -12,7 +12,7 @@ import {
 } from "@/types/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { createApiServerClient } from "../client/v1";
+import { Client, createApiServerClient } from "../client/v1";
 
 import type { LongTextForm, InterviewRoom } from "@/types/application";
 import type {
@@ -23,6 +23,7 @@ import type {
   UserExtraInfoServerResponse,
 } from "@/types/user";
 import type { RootStore } from ".";
+import axios from "axios";
 
 interface SetValueOptions {
   /**
@@ -59,7 +60,7 @@ class UserStore {
       return "loading";
     } else if (this.credential.accessToken === "") {
       return "unauthorized";
-    } else if (!this.user.isMember) {
+    } else if (!this.user.is_elab_member) {
       return "not_elab_member";
     } else {
       return "authorized";
@@ -160,21 +161,32 @@ class UserStore {
    * 若没有accessToken的情况下调用本函数将出现错误。
    */
   async fetchExtraInfo() {
-    // 算了，还是判定一下吧...
-    if (this.credential.accessToken === "") {
-      throw new Error("用户未登录，无法获取额外信息。");
+    const client = new Client(this.credential.accessToken);
+    const userInfoPromise = client.user
+      .fetchUserInfo(this.jwt.sub)
+      .catch((err) => {
+        // userInfo获取失败，因此属于后端出现了问题，直接panic
+        throw new Error("获取用户信息出现错误。", { cause: err });
+      });
+    const longTextFormPromise = client.application
+      .fetchLongTextForm()
+      .catch((err) => {
+        if (axios.isAxiosError(err)) {
+          if (err.status === 404) {
+            return createEmptyLongTextForm();
+          }
+          throw new Error("获取长文本表单出现错误。", { cause: err });
+        }
+      });
+    let [userInfo, longTextForm] = await Promise.all([
+      userInfoPromise,
+      longTextFormPromise,
+    ]);
+    if (longTextForm === undefined) {
+      longTextForm = createEmptyLongTextForm();
     }
-    const client = createApiServerClient(this.credential.accessToken);
-    try {
-      const {
-        data,
-      }: {
-        data: UserExtraInfoServerResponse;
-      } = await client.get(apiEndpoint.USER + `/${this.userInfo.sub}`);
-      // TODO: 接口Response未定，需要检查一下。
-      this.setUser(data.data);
-      this.setLongTextForm(data.data as unknown as LongTextForm);
-    } catch (err) {}
+    this.setUser(userInfo);
+    this.setLongTextForm(longTextForm);
   }
 
   /**

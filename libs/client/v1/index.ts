@@ -1,5 +1,7 @@
 import axios, { type AxiosInstance } from "axios";
 import { apiEndpoint } from "@/constants/index";
+import ApplicationClient from "./application";
+import UserClient from "./user";
 
 /**
  * 用于请求API服务器的Axios实例。
@@ -22,4 +24,27 @@ function createApiServerClient(accessToken?: string): AxiosInstance {
   return client;
 }
 
-export { createApiServerClient };
+class Client {
+  accessToken?: string;
+  application: ApplicationClient;
+  user: UserClient;
+
+  constructor(accessToken?: string) {
+    this.accessToken = accessToken;
+    this.application = new ApplicationClient(this);
+    this.user = new UserClient(this);
+  }
+
+  checkAccessToken() {
+    if (this.accessToken === undefined || this.accessToken === "") {
+      throw new Error("用户未登录，无法获取额外信息。");
+    }
+  }
+
+  getClient() {
+    this.checkAccessToken();
+    return createApiServerClient(this.accessToken);
+  }
+}
+
+export { createApiServerClient, Client };
