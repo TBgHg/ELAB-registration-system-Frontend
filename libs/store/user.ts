@@ -12,16 +12,10 @@ import {
 } from "@/types/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { Client, createApiServerClient } from "../client/v1";
+import { Client } from "../client/v1";
 
 import type { LongTextForm, InterviewRoom } from "@/types/application";
-import type {
-  User,
-  Credential,
-  JWT,
-  UserInfo,
-  UserExtraInfoServerResponse,
-} from "@/types/user";
+import type { User, Credential, JWT, UserInfo } from "@/types/user";
 import type { RootStore } from ".";
 import axios from "axios";
 
