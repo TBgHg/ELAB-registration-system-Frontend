@@ -7,8 +7,6 @@ interface CreateSessionOptions {
 }
 
 async function createAuthSession(options: CreateSessionOptions) {
-  console.log(options);
-
   const client = createApiServerClient();
   const { data } = await client.post("/auth/create", options);
   return data as { ok: boolean };

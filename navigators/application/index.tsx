@@ -1,3 +1,5 @@
+import React from "react";
+
 import type {
   CompositeScreenProps,
   NavigatorScreenParams,
@@ -6,6 +8,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { RootNavigatorParamList, RootNavigatorScreenProps } from "..";
 import type { FormNavigatorParamList } from "./form";
+import StartPage from "@/pages/application/StartPage";
 
 interface ApplicationNavigatorParamList {
   ApplicationStartPage: undefined;
@@ -24,6 +27,19 @@ type ApplicationNavigatorScreenProps<T extends ApplicationNavigatorKey> =
   >;
 
 const Stack = createNativeStackNavigator<ApplicationNavigatorParamList>();
+
+const ApplicationNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ApplicationStartPage"
+        component={StartPage}
+      ></Stack.Screen>
+    </Stack.Navigator>
+  );
+};
+
+export default ApplicationNavigator;
 
 export type {
   ApplicationNavigatorParamList,

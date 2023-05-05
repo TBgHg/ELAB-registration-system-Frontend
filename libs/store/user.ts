@@ -252,10 +252,12 @@ class UserStore {
       });
     }
     if (parseJwt) {
-      const jwt = JSON.parse(
-        // atob和btoa是Base64编码的两个方法，但已被deprecated，因此使用Buffer进行编码。
-        Buffer.from(credential.accessToken.split(".")[1]).toString("utf-8")
-      );
+      // atob和btoa是Base64编码的两个方法，但已被deprecated，因此使用Buffer进行编码。
+      const rawJwt = Buffer.from(
+        credential.accessToken.split(".")[1],
+        "base64"
+      ).toString("utf-8");
+      const jwt = JSON.parse(rawJwt);
       this.setJwt(jwt, { withStorage });
     }
   }

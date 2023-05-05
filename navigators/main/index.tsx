@@ -1,3 +1,5 @@
+import React from "react";
+
 import type {
   CompositeScreenProps,
   NavigatorScreenParams,
@@ -7,6 +9,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { RootNavigatorKey, RootNavigatorScreenProps } from "..";
 import type { PopupNavigatorParamList } from "./popup";
 import type { TabNavigatorParamList } from "./tab";
+import TabPage from "@/pages/main/tab/TabPage";
 
 interface MainNavigatorParamList {
   PopupNavigator: NavigatorScreenParams<PopupNavigatorParamList>;
@@ -24,6 +27,16 @@ type MainNavigatorScreenProps<T extends MainNavigatorKey> =
   >;
 
 const Stack = createNativeStackNavigator<MainNavigatorParamList>();
+
+const MainNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="TabNavigator" component={TabPage}></Stack.Screen>
+    </Stack.Navigator>
+  );
+};
+
+export default MainNavigator;
 
 export type {
   MainNavigatorParamList,

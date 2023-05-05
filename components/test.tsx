@@ -8,17 +8,6 @@ import createAuthSession from "@/libs/auth/createSession";
 const TestOAuth = () => {
   const discovery = AuthSession.useAutoDiscovery("https://auth.zeithrold.com");
   const redirectUri = AuthSession.makeRedirectUri();
-  // const [state, setState] = React.useState<string>("");
-  // const [request, response, promptAsync] = AuthSession.useAuthRequest(
-  //   {
-  //     clientId: "ac7e6090893a6233072a",
-  //     redirectUri: "https://mba-internal.zeithrold.cloud/v1/auth/callback",
-  //     scopes: ["openid", "profile", "email"],
-  //     state,
-  //     codeChallenge,
-  //   },
-  //   discovery
-  // );
   return (
     <View
       style={{

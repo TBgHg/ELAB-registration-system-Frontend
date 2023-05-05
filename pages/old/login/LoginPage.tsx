@@ -43,8 +43,6 @@ type LoginPageProps = NativeStackScreenProps<
 >;
 
 const LoginPage = ({ navigation }: LoginPageProps) => {
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
   return (
     <Layout
       level="1"
@@ -59,26 +57,7 @@ const LoginPage = ({ navigation }: LoginPageProps) => {
             <Text category="h2" style={styles.title}>
               让我们帮你登陆吧。
             </Text>
-            <Text>OneELAB需要登陆。请填写账户与密码以进行登录。</Text>
-          </Layout>
-          <Layout style={styles.inputBox}>
-            <Input
-              label="你的账户"
-              placeholder="用户名/手机号/邮箱"
-              style={styles.input}
-              value={username}
-              onChangeText={setUsername}
-              size="large"
-            ></Input>
-            <Input
-              label="你的密码"
-              placeholder="你的密码"
-              secureTextEntry={true}
-              style={styles.input}
-              value={password}
-              onChangeText={setPassword}
-              size="large"
-            ></Input>
+            <Text>OneELAB需要登陆。请点击下面的按钮以进行登录。</Text>
           </Layout>
           <Layout style={styles.buttonBox}>
             <ButtonGroup style={{ flex: 1 }}>
