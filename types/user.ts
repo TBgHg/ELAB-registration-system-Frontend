@@ -1,13 +1,5 @@
 type Group = "电子组" | "软件组";
 
-/**
- * 从后端获取的用户附加信息。
- */
-interface UserExtraInfoServerResponse {
-  // 暂且先这样写，可能以后会有变动。
-  data: User;
-}
-
 interface User {
   /**
    * OpenID
@@ -153,16 +145,7 @@ function createEmptyUser(): User {
 
 type UserStatus = "elab_member" | "not_elab_member" | "unauthorized";
 
-export type {
-  Group,
-  TokenBase,
-  User,
-  Credential,
-  UserInfo,
-  JWT,
-  UserStatus,
-  UserExtraInfoServerResponse,
-};
+export type { Group, TokenBase, User, Credential, UserInfo, JWT, UserStatus };
 
 export {
   createEmptyJwt,
