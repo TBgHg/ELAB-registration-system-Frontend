@@ -9,7 +9,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { RootNavigatorKey, RootNavigatorScreenProps } from "..";
 import type { PopupNavigatorParamList } from "./popup";
 import type { TabNavigatorParamList } from "./tab";
-import TabPage from "@/pages/main/tab/TabPage";
+import TabNavigator from "./tab";
 
 interface MainNavigatorParamList {
   PopupNavigator: NavigatorScreenParams<PopupNavigatorParamList>;
@@ -41,7 +41,7 @@ const MainNavigator = () => {
         };
       }}
     >
-      <Stack.Screen name="TabNavigator" component={TabPage}></Stack.Screen>
+      <Stack.Screen name="TabNavigator" component={TabNavigator}></Stack.Screen>
     </Stack.Navigator>
   );
 };

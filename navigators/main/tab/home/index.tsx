@@ -4,6 +4,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { TabNavigatorKey, TabNavigatorScreenProps } from "..";
 import HomePage from "@/pages/main/tab/home/HomePage";
+import { TopNavigation } from "@ui-kitten/components";
 
 interface HomeNavigatorParamList {
   HomePage: undefined;
@@ -21,8 +22,24 @@ const Stack = createNativeStackNavigator<HomeNavigatorParamList>();
 
 const HomeNavigator = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="HomePage" component={HomePage}></Stack.Screen>
+    <Stack.Navigator
+      screenOptions={{
+        header: (props) => (
+          <TopNavigation
+            alignment="center"
+            title={props.options?.title}
+            {...props}
+          ></TopNavigation>
+        ),
+      }}
+    >
+      <Stack.Screen
+        name="HomePage"
+        options={{
+          title: "电气创新实践基地",
+        }}
+        component={HomePage}
+      ></Stack.Screen>
     </Stack.Navigator>
   );
 };

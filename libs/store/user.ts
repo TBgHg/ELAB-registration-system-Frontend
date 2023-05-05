@@ -57,6 +57,12 @@ class UserStore {
     }
   }
 
+  state: string = "";
+
+  setState(state) {
+    this.state = state;
+  }
+
   /**
    * 设置用户信息。
    * @param user 用户信息，可以只填写部分信息，会自动合并。
@@ -243,6 +249,9 @@ class UserStore {
     }
   ) {
     const { withStorage = true, parseJwt = true } = options ?? {};
+    if (parseJwt) {
+      this.toggleLoading(true);
+    }
     this.credential = credential;
     if (withStorage) {
       AsyncStorage.setItem(
@@ -262,12 +271,16 @@ class UserStore {
       ).toString("utf-8");
       const jwt = JSON.parse(rawJwt);
       this.setJwt(jwt, { withStorage });
-      this.fetchExtraInfo().catch((err) => {
-        throw new Error(
-          "在设置Credential过程中，获取额外用户信息过程中出现错误。",
-          { cause: err }
-        );
-      });
+      Promise.allSettled([this.fetchExtraInfo(), this.fetchUserInfo()])
+        .then(() => {
+          this.toggleLoading(false);
+        })
+        .catch((err) => {
+          throw new Error(
+            "在设置Credential过程中，获取额外用户信息过程中出现错误。",
+            { cause: err }
+          );
+        });
     }
   }
 

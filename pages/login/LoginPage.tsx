@@ -1,7 +1,7 @@
 import React from "react";
 
 import * as PKCE from "expo-auth-session/build/PKCE";
-import { Alert, ScrollView, StyleSheet } from "react-native";
+import { Alert, Platform, ScrollView, StyleSheet } from "react-native";
 
 import {
   Button,
@@ -13,17 +13,13 @@ import {
 
 import { store } from "@/libs/store";
 
-import type { DiscoveryDocument } from "expo-auth-session";
-import {
-  makeRedirectUri,
-  useAutoDiscovery,
-  AuthRequest,
-} from "expo-auth-session";
+import * as AuthSession from "expo-auth-session";
+import * as Linking from "expo-linking";
 import { apiEndpoint, oidcClientId, oidcDiscovery } from "@/constants/index";
 import createAuthSession from "@/libs/auth/createSession";
 import type { LoginNavigatorScreenProps } from "@/navigators/login";
-import type { Credential } from "@/types/user";
 import { observer } from "mobx-react";
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -34,6 +30,9 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingBottom: 8,
+  },
+  description: {
+    paddingBottom: 18,
   },
   inputBox: {
     paddingVertical: 8,
@@ -48,7 +47,7 @@ const styles = StyleSheet.create({
 });
 
 interface LoginButtonOnPress {
-  discovery: DiscoveryDocument;
+  discovery: AuthSession.DiscoveryDocument;
   redirectUri: string;
 }
 
@@ -57,7 +56,7 @@ const loginButtonOnPress = async ({
   redirectUri,
 }: LoginButtonOnPress) => {
   const oidcRedirectUri = apiEndpoint + "/auth/callback";
-  const request = new AuthRequest({
+  const request = new AuthSession.AuthRequest({
     redirectUri: oidcRedirectUri,
     clientId: oidcClientId,
     scopes: ["openid", "profile", "email"],
@@ -75,74 +74,95 @@ const loginButtonOnPress = async ({
     console.error(e);
     Alert.alert("无法启动登录会话", "请检查你的网络连接。");
   }
-  const result = await request.promptAsync(discovery, {
-    showInRecents: true,
-  });
-  console.log(result);
-  if (result.type === "success") {
-    store.user.setCredential(result.authentication as Credential);
+  store.user.setState(request.state);
+  const result = await request.promptAsync(discovery);
+  if (result.type === "success" && result.authentication != null) {
+    store.user.setCredential({
+      accessToken: result.authentication.accessToken,
+      refreshToken: result.authentication.refreshToken as string,
+    });
   }
 };
 
-const LoginPage = observer(
-  ({ navigation }: LoginNavigatorScreenProps<"LoginPage">) => {
-    // discovery 可能为空值，需要进行判定
-    const discovery = useAutoDiscovery(oidcDiscovery);
-    const redirectUri = makeRedirectUri();
-    React.useEffect(() => {
-      console.log(store.user.userStatus);
-      if (store.user.userStatus === "authorized") {
-        navigation.navigate("MainNavigator", {
-          screen: "TabNavigator",
+const LoginPage = ({ navigation }: LoginNavigatorScreenProps<"LoginPage">) => {
+  const codeHandler = React.useCallback((event: Linking.EventType) => {
+    const { url } = event;
+    const parsedUrl = Linking.parse(url);
+    if (
+      parsedUrl.path === "auth/callback" &&
+      parsedUrl.queryParams?.state === store.user.state
+    ) {
+      // 登陆成功！
+      store.user.setCredential({
+        accessToken: parsedUrl.queryParams.access_token as string,
+        refreshToken: parsedUrl.queryParams.refresh_token as string,
+      });
+    }
+  }, []);
+  React.useEffect(() => {
+    console.log(store.user.userInfo);
+    console.log(store.user.user);
+  }, [store.user.userInfo, store.user.user]);
+  React.useEffect(() => {
+    if (Platform.OS === "android") {
+      Linking.addEventListener("url", codeHandler);
+    }
+    return () => {};
+  }, [codeHandler]);
+  // discovery 可能为空值，需要进行判定
+  const discovery = AuthSession.useAutoDiscovery(oidcDiscovery);
+  const redirectUri = AuthSession.makeRedirectUri({
+    path: "/auth/callback",
+  });
+  React.useEffect(() => {
+    console.log(store.user.userStatus);
+    if (store.user.userStatus === "authorized") {
+      navigation.navigate("MainNavigator", {
+        screen: "TabNavigator",
+        params: {
+          screen: "HomeNavigator",
           params: {
-            screen: "HomeNavigator",
-            params: {
-              screen: "HomePage",
-            },
+            screen: "HomePage",
           },
-        });
-      } else if (store.user.userStatus === "not_elab_member") {
-        navigation.navigate("ApplicationNavigator", {
-          screen: "ApplicationStartPage",
-        });
-      }
-    }, [store.user.userStatus]);
-    return (
-      <Layout style={{ flex: 1 }}>
-        <TopNavigation title="登陆" alignment="center" />
-        <Divider />
-        <ScrollView>
-          <Layout style={styles.container}>
-            <Layout style={styles.textBox}>
-              <Text category="h2" style={styles.title}>
-                让我们帮你登陆吧。
-              </Text>
-              <Text>OneELAB需要登陆。请点击下面的按钮以进行登录。</Text>
-            </Layout>
-            <Button
-              disabled={discovery == null}
-              onPress={() => {
-                loginButtonOnPress({
-                  discovery: discovery as DiscoveryDocument,
-                  redirectUri,
-                })
-                  .then(() => {
-                    console.log(store.user.userStatus);
-                    // navigation.navigate("RootNavigator", {
-                    // });
-                  })
-                  .catch((err) => {
-                    console.error(err);
-                  });
-              }}
-            >
-              点击登录
-            </Button>
+        },
+      });
+    } else if (store.user.userStatus === "not_elab_member") {
+      navigation.navigate("ApplicationNavigator", {
+        screen: "ApplicationStartPage",
+      });
+    }
+  }, [store.user.userStatus]);
+  return (
+    <Layout style={{ flex: 1 }}>
+      <TopNavigation title="登陆" alignment="center" />
+      <Divider />
+      <ScrollView>
+        <Layout style={styles.container}>
+          <Layout style={styles.textBox}>
+            <Text category="h2" style={styles.title}>
+              让我们帮你登陆吧。
+            </Text>
+            <Text style={styles.description}>
+              OneELAB需要登陆。请点击下面的按钮以进行登录。
+            </Text>
           </Layout>
-        </ScrollView>
-      </Layout>
-    );
-  }
-);
-
-export default LoginPage;
+          <Button
+            disabled={discovery == null}
+            size="giant"
+            onPress={() => {
+              loginButtonOnPress({
+                discovery: discovery as AuthSession.DiscoveryDocument,
+                redirectUri,
+              }).catch((err) => {
+                console.error(err);
+              });
+            }}
+          >
+            点击登录
+          </Button>
+        </Layout>
+      </ScrollView>
+    </Layout>
+  );
+};
+export default observer(LoginPage);

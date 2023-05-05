@@ -42,7 +42,11 @@ const Stack = createNativeStackNavigator<SpaceNavigatorParamList>();
 
 const SpaceNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Stack.Screen name="SpaceHomePage" component={HomePage}></Stack.Screen>
       <Stack.Screen name="SpacePage" component={SpacePage}></Stack.Screen>
       <Stack.Screen

@@ -29,6 +29,7 @@
         "expo-constants": "~14.2.1",
         "expo-crypto": "~12.2.1",
         "expo-dev-client": "~2.2.1",
+        "expo-linking": "~4.0.1",
         "expo-status-bar": "~1.4.4",
         "expo-updates": "~0.16.4",
         "jose": "^4.14.0",
