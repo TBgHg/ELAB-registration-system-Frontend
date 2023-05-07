@@ -9,7 +9,7 @@ interface ContentTimeInfo {
   editedAt?: Date;
 }
 
-type ContentType = "wiki" | "thread" | "comment" | "space";
+type ContentType = "wiki" | "thread" | "comment";
 type ContentCreatePageType = "create" | "edit";
 
 interface ContentPageParam {

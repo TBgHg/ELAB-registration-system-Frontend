@@ -1,14 +1,9 @@
 import type { LongTextForm, InterviewRoom } from "@/types/application";
-import type { Client } from ".";
+import { Client } from ".";
 
-class ApplicationClient {
-  rootClient: Client;
-  constructor(rootClient: Client) {
-    this.rootClient = rootClient;
-  }
-
+class ApplicationClient extends Client {
   getClient() {
-    const client = this.rootClient.getClient();
+    const client = this.getClient();
     client.defaults.baseURL =
       (client.defaults.baseURL as string) + "/application";
     return client;

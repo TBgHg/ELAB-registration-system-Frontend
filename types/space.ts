@@ -2,7 +2,7 @@ interface Space {
   /**
    * 空间的UUID。
    */
-  id: string;
+  space_id: string;
   /**
    * 空间的名称。
    */
@@ -11,6 +11,10 @@ interface Space {
    * 空间的描述。
    */
   description: string;
+  /**
+   * 空间是否为私密空间
+   */
+  private: boolean;
 }
 
 type SpacePatchType = "add" | "edit";
@@ -18,6 +22,29 @@ type SpacePatchType = "add" | "edit";
 interface SpacePatchParam {
   id?: string;
   type: SpacePatchType;
+}
+
+interface MemberOperation {
+  /**
+   * 创建时间
+   */
+  created_at: Date;
+  /**
+   * 空间ID
+   */
+  space_id: string;
+  /**
+   * 申请人的OpenID
+   */
+  openid: string;
+  /**
+   * 申请状态
+   */
+  status: "pending" | "accepted" | "rejected";
+  /**
+   * 操作类型
+   */
+  type: "apply" | "invitation";
 }
 
 function createEmptySpace() {
@@ -28,5 +55,21 @@ function createEmptySpace() {
   };
 }
 
-export type { Space, SpacePatchType, SpacePatchParam };
+type SpacePosition = "owner" | "moderator" | "none";
+
+interface SpaceMember {
+  openid: string;
+  avatar: string;
+  name: string;
+  position: SpacePosition;
+}
+
+export type {
+  Space,
+  SpacePatchType,
+  SpacePatchParam,
+  MemberOperation,
+  SpaceMember,
+  SpacePosition,
+};
 export { createEmptySpace };
