@@ -12,12 +12,12 @@ import {
 } from "@/types/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { Client } from "../client/v1";
-
 import type { LongTextForm, InterviewRoom } from "@/types/application";
 import type { User, Credential, JWT, UserInfo } from "@/types/user";
 import type { RootStore } from ".";
 import axios from "axios";
+import UserClient from "../client/v1/user";
+import ApplicationClient from "../client/v1/application";
 
 interface SetValueOptions {
   /**
@@ -157,8 +157,8 @@ class UserStore {
    * 若没有accessToken的情况下调用本函数将出现错误。
    */
   async fetchExtraInfo() {
-    const client = new Client(this.credential.accessToken);
-    const userInfoPromise = client.user
+    const userClient = new UserClient(this.credential.accessToken);
+    const userInfoPromise = userClient
       .fetchUser(this.jwt.sub)
       .then((userInfo) => {
         this.setUser(userInfo);
@@ -167,7 +167,11 @@ class UserStore {
         // userInfo获取失败，因此属于后端出现了问题，直接panic
         throw new Error("获取后端用户信息出现错误。", { cause: err });
       });
-    const longTextFormPromise = client.application
+
+    const applicationClient = new ApplicationClient(
+      this.credential.accessToken
+    );
+    const longTextFormPromise = applicationClient
       .fetchLongTextForm()
       .then((longTextForm) => {
         this.setLongTextForm(longTextForm);

@@ -40,4 +40,5 @@ class Client {
   }
 }
 
-export { createApiServerClient, Client };
+export default Client;
+export { createApiServerClient };

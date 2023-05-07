@@ -49,9 +49,10 @@ interface MemberOperation {
 
 function createEmptySpace() {
   return {
-    id: "",
+    space_id: "",
     name: "",
     description: "",
+    private: false,
   };
 }
 

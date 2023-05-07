@@ -1,7 +1,6 @@
 import type { MemberOperation, Space } from "@/types/space";
 import type { AxiosInstance } from "axios";
-import { Client } from "..";
-
+import Client from "..";
 class SpaceClient extends Client {
   getClient(): AxiosInstance {
     const client = super.getClient();

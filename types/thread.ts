@@ -10,4 +10,8 @@ interface ThreadSearchResponse {
   threads: null | ContentHeadResponse[];
 }
 
-export type { Thread, ThreadSearchResponse };
+interface ThreadCommentCountsResponse {
+  counts: number;
+}
+
+export type { Thread, ThreadSearchResponse, ThreadCommentCountsResponse };

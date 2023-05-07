@@ -1,11 +1,13 @@
-import type { CommentCountsServerResponse, ThreadHead } from "@/types/thread";
+import type { ThreadCommentCountsResponse } from "@/types/thread";
 import { makeAutoObservable } from "mobx";
-
-import { createEmptyThreadHead } from "@/types/thread";
 
 import { createApiServerClient } from "../client/v1";
 
 import type { RootStore } from ".";
+import type { ContentHeadResponse } from "@/types/common";
+
+import { createEmptyContentHeadResponse } from "@/types/common";
+
 /**
  * 论坛帖子的数据存储。
  *
@@ -21,14 +23,20 @@ class ThreadStore {
   /**
    * 当前正在访问的论坛帖子。
    */
-  threadHead = createEmptyThreadHead();
+  thread = createEmptyContentHeadResponse();
+
+  threadId = "";
 
   /**
    * 设置论坛头。
-   * @param threadHead 要设置的论坛头。
+   * @param thread 要设置的论坛头。
    */
-  setThreadHead(threadHead: ThreadHead) {
-    this.threadHead = threadHead;
+  setThreadHead(thread: ContentHeadResponse) {
+    this.thread = thread;
+  }
+
+  setThreadId(threadId: string) {
+    this.threadId = threadId;
   }
 
   /**
@@ -54,8 +62,8 @@ class ThreadStore {
     const { accessToken } = this.rootStore.user.credential;
     const client = createApiServerClient(accessToken);
     try {
-      const { data }: { data: CommentCountsServerResponse } = await client.head(
-        `/space/${this.rootStore.space.space.id}/thread/${this.threadHead.id}/comments`
+      const { data }: { data: ThreadCommentCountsResponse } = await client.head(
+        `/space/${this.rootStore.space.space.space_id}/thread/${this.threadId}/comments`
       );
       this.setCommentsAmount(data.counts);
     } catch (err) {

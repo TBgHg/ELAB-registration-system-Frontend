@@ -1,5 +1,5 @@
 import type { ContentCreateRequest } from "@/types/common";
-import { Client } from "..";
+import Client from "..";
 
 class CommentClient extends Client {
   threadId: string;

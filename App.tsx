@@ -1,10 +1,11 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { NavigationContainer } from "@react-navigation/native";
-import RootNavigator from "./navigators";
+import RootNavigator from "@/navigators/index";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import * as eva from "@eva-design/eva";
+
 import "expo-dev-client";
 
 export default observer(() => {

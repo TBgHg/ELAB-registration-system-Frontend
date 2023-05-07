@@ -4,7 +4,7 @@ import type {
   ContentSearchParams,
 } from "@/types/common";
 import type { ThreadSearchResponse } from "@/types/thread";
-import { Client } from "..";
+import Client from "..";
 
 class ThreadClient extends Client {
   spaceId: string;
@@ -40,7 +40,16 @@ class ThreadClient extends Client {
     const { data } = await client.get(``, {
       params: params === undefined ? {} : params,
     });
-    return data;
+    return Object.assign(data, {
+      threads:
+        data.threads === null
+          ? null
+          : data.threads.map((thread) => {
+              return {
+                last_update_at: new Date(thread.last_update_at),
+              };
+            }),
+    });
   }
 
   async getThreadHistoryContent(

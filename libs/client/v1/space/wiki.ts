@@ -4,7 +4,7 @@ import type {
   ContentSearchParams,
 } from "@/types/common";
 import type { WikiSearchResponse } from "@/types/wiki";
-import { Client } from "..";
+import Client from "..";
 
 class WikiClient extends Client {
   spaceId: string;
@@ -38,16 +38,25 @@ class WikiClient extends Client {
     const { data } = await client.get(``, {
       params: params === undefined ? {} : params,
     });
-    return data;
+    return Object.assign(data, {
+      wikis:
+        data.wikis === null
+          ? null
+          : data.wikis.map((wiki) => {
+              return {
+                last_update_at: new Date(wiki.last_update_at),
+              };
+            }),
+    });
   }
 
   async getWikiHistoryContent(
     wikiId: string,
     historyId: string
-  ): Promise<ContentHistoryResponse> {
+  ): Promise<string> {
     const client = this.getClient();
     const { data } = await client.get(`/${wikiId}/history/${historyId}`);
-    return data;
+    return data.content;
   }
 }
 

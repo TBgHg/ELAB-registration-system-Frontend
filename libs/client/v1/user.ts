@@ -1,23 +1,21 @@
 import type { MemberOperation, Space } from "@/types/space";
 import type { User } from "@/types/user";
-import { Client } from ".";
+import Client from "@/libs/client/v1";
 
 class UserClient extends Client {
   getClient() {
-    const client = this.getClient();
+    const client = super.getClient();
     client.defaults.baseURL = (client.defaults.baseURL as string) + "/user";
     return client;
   }
 
   async fetchUser(openid: string): Promise<User> {
-    this.checkAccessToken();
     const client = this.getClient();
     const { data } = await client.get(`/${openid}`);
     return data;
   }
 
   async fetchSpaces(openid: string): Promise<Space[] | null> {
-    this.checkAccessToken();
     const client = this.getClient();
     const { data } = await client.get(`/${openid}/spaces`);
     return data.spaces;
@@ -27,7 +25,6 @@ class UserClient extends Client {
     openid: string,
     user: Partial<Omit<User, "openid" | "is_elab_member">>
   ): Promise<User> {
-    this.checkAccessToken();
     const client = this.getClient();
     const { data } = await client.patch(`/${openid}`, user);
     return data;
@@ -38,7 +35,6 @@ class UserClient extends Client {
       type: "invitation";
     }
   > | null> {
-    this.checkAccessToken();
     const client = this.getClient();
     const { data } = await client.get(`/${openid}/invitations`);
     return Object.assign(data.invitations, {
@@ -52,7 +48,6 @@ class UserClient extends Client {
       type: "apply";
     }
   > | null> {
-    this.checkAccessToken();
     const client = this.getClient();
     const { data } = await client.get(`/${openid}/applies`);
     return Object.assign(data.applies, {
