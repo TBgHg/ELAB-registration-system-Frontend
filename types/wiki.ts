@@ -1,19 +1,13 @@
-import type { Author } from "./common";
+import type { ContentHeadResponse } from "./common";
 
-interface WikiHead {
-  id: string;
+interface Wiki {
+  wiki_id: string;
   title: string;
-  summary: string;
-  author: Author;
-  lastUpdateAt: Date;
-}
-
-interface WikiHeadServerResponse {
-  wikiHeads: WikiHead[];
-}
-
-interface Wiki extends WikiHead {
   content: string;
 }
 
-export type { WikiHead, WikiHeadServerResponse, Wiki };
+interface WikiSearchResponse {
+  wikis: null | ContentHeadResponse[];
+}
+
+export type { Wiki, WikiSearchResponse };

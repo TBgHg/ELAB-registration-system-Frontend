@@ -4,7 +4,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { TabNavigatorKey, TabNavigatorScreenProps } from "..";
 import HomePage from "@/pages/main/tab/home/HomePage";
-import { TopNavigation } from "@ui-kitten/components";
+import { Divider, TopNavigation } from "@ui-kitten/components";
 
 interface HomeNavigatorParamList {
   HomePage: undefined;

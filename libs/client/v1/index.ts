@@ -1,8 +1,5 @@
 import axios, { type AxiosInstance } from "axios";
 import { apiEndpoint } from "@/constants/index";
-import ApplicationClient from "./application";
-import UserClient from "./user";
-
 /**
  * 用于请求API服务器的Axios实例。
  * @param accessToken 用户的AccessToken，若传入将会在Header自动设置Authorization的Header。
@@ -26,13 +23,9 @@ function createApiServerClient(accessToken?: string): AxiosInstance {
 
 class Client {
   accessToken?: string;
-  application: ApplicationClient;
-  user: UserClient;
 
   constructor(accessToken?: string) {
     this.accessToken = accessToken;
-    this.application = new ApplicationClient(this);
-    this.user = new UserClient(this);
   }
 
   checkAccessToken() {
