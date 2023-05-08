@@ -17,8 +17,8 @@ import * as AuthSession from "expo-auth-session";
 import * as Linking from "expo-linking";
 import { apiEndpoint, oidcClientId, oidcDiscovery } from "@/constants/index";
 import createAuthSession from "@/libs/auth/createSession";
-import type { LoginNavigatorScreenProps } from "@/navigators/login";
 import { observer } from "mobx-react";
+import { useNavigation } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
   container: {
@@ -84,7 +84,7 @@ const loginButtonOnPress = async ({
   }
 };
 
-const LoginPage = ({ navigation }: LoginNavigatorScreenProps<"LoginPage">) => {
+const LoginPage = () => {
   const codeHandler = React.useCallback((event: Linking.EventType) => {
     const { url } = event;
     const parsedUrl = Linking.parse(url);
@@ -114,6 +114,7 @@ const LoginPage = ({ navigation }: LoginNavigatorScreenProps<"LoginPage">) => {
   const redirectUri = AuthSession.makeRedirectUri({
     path: "/auth/callback",
   });
+  const navigation = useNavigation();
   React.useEffect(() => {
     console.log(store.user.userStatus);
     if (store.user.userStatus === "authorized") {

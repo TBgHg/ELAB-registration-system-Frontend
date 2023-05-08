@@ -1,8 +1,4 @@
-import type {
-  ContentCreateRequest,
-  ContentHistoryResponse,
-  ContentSearchParams,
-} from "@/types/common";
+import type { ContentCreateRequest, ContentSearchParams } from "@/types/common";
 import type { WikiSearchResponse } from "@/types/wiki";
 import Client from "..";
 
@@ -44,7 +40,7 @@ class WikiClient extends Client {
           ? null
           : data.wikis.map((wiki) => {
               return {
-                last_update_at: new Date(wiki.last_update_at),
+                last_update_at: new Date(wiki.last_update_at * 1000),
               };
             }),
     });

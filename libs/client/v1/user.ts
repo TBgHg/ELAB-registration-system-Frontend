@@ -37,10 +37,14 @@ class UserClient extends Client {
   > | null> {
     const client = this.getClient();
     const { data } = await client.get(`/${openid}/invitations`);
-    return Object.assign(data.invitations, {
-      type: "invitation",
-      created_at: new Date(data.invitations.created_at),
+    let { invitations } = data;
+    invitations = invitations.map((invitation: any) => {
+      return Object.assign(invitation, {
+        created_at: new Date(invitation.created_at),
+        type: "invitation",
+      });
     });
+    return invitations;
   }
 
   async fetchApplies(openid: string): Promise<Array<
@@ -50,10 +54,14 @@ class UserClient extends Client {
   > | null> {
     const client = this.getClient();
     const { data } = await client.get(`/${openid}/applies`);
-    return Object.assign(data.applies, {
-      type: "apply",
-      created_at: new Date(data.applies.created_at),
+    let { applies } = data;
+    applies = applies.map((apply: any) => {
+      return Object.assign(apply, {
+        created_at: new Date(apply.created_at),
+        type: "apply",
+      });
     });
+    return applies;
   }
 }
 

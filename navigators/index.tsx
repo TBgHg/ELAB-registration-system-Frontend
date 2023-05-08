@@ -40,6 +40,8 @@ const RootNavigator = observer(() => {
   const navigation = useNavigation();
   useFocusEffect(
     React.useCallback(() => {
+      console.log("RootNavigator useFocusEffect");
+      console.log(store.user.userStatus);
       if (store.user.userStatus === "unauthorized") {
         navigation.navigate("LoginNavigator", {
           screen: "LoginPage",

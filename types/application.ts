@@ -5,11 +5,11 @@ interface LongTextForm {
 }
 
 interface InterviewRoom {
-  id: string;
+  room_id: string;
   name: string;
   time: Date;
   capacity: number;
-  currentOccupancy: number;
+  current_occupancy: number;
   location: string;
 }
 
@@ -27,11 +27,11 @@ function createEmptyLongTextForm(): LongTextForm {
 
 function createEmptyInterviewRoom(): InterviewRoom {
   return {
-    id: "",
+    room_id: "",
     name: "",
     time: new Date(),
     capacity: 0,
-    currentOccupancy: 0,
+    current_occupancy: 0,
     location: "",
   };
 }

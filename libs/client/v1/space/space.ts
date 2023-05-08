@@ -48,19 +48,27 @@ class SpaceClient extends Client {
   async fetchInvitations(id: string): Promise<MemberOperation[] | null> {
     const client = this.getClient();
     const { data } = await client.get(`/${id}/invitations`);
-    return Object.assign(data.invitations, {
-      created_at: new Date(data.invitations.created_at),
-      type: "invitation",
+    let { invitations } = data;
+    invitations = invitations.map((invitation: any) => {
+      return Object.assign(invitation, {
+        created_at: new Date(invitation.created_at),
+        type: "invitation",
+      });
     });
+    return invitations;
   }
 
   async fetchApplies(id: string): Promise<MemberOperation[] | null> {
     const client = this.getClient();
     const { data } = await client.get(`/${id}/applies`);
-    return Object.assign(data.applies, {
-      created_at: new Date(data.applies.created_at),
-      type: "apply",
+    let { applies } = data;
+    applies = applies.map((apply: any) => {
+      return Object.assign(apply, {
+        created_at: new Date(apply.created_at),
+        type: "apply",
+      });
     });
+    return applies;
   }
 }
 

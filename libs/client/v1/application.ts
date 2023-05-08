@@ -1,5 +1,6 @@
 import type { LongTextForm, InterviewRoom } from "@/types/application";
 import Client from "@/libs/client/v1/index";
+import axios from "axios";
 
 class ApplicationClient extends Client {
   getClient() {
@@ -32,17 +33,38 @@ class ApplicationClient extends Client {
     return data;
   }
 
+  async fetchCurrentRoomSelection(): Promise<{
+    openid: string;
+    room_id: string;
+  } | null> {
+    const client = this.getClient();
+    try {
+      const { data } = await client.get(`/current_room`);
+      return data;
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 404) {
+        return null;
+      }
+      throw err;
+    }
+  }
+
   async fetchRooms(): Promise<InterviewRoom[]> {
     const client = this.getClient();
-    const { data } = await client.get(`/rooms`);
-    return Object.assign(data, {
-      time: new Date(data.time),
+    const { data } = await client.get(`/room`);
+    const rooms = data.rooms.map((room: any) => {
+      return {
+        ...room,
+        time: new Date(room.time * 1000),
+      };
     });
+    return rooms;
   }
 
   async setRoom(roomId: string) {
+    console.log(roomId);
     const client = this.getClient();
-    const { data } = await client.post(`/rooms`, {
+    const { data } = await client.post(`/room`, {
       room_id: roomId,
     });
     return data;
@@ -50,8 +72,14 @@ class ApplicationClient extends Client {
 
   async deleteRoom() {
     const client = this.getClient();
-    const { data } = await client.delete(`/rooms`);
+    const { data } = await client.delete(`/room`);
     return data;
+  }
+
+  async getCountdown(): Promise<number> {
+    const client = this.getClient();
+    const { data } = await client.get(`/countdown`);
+    return data.time;
   }
 }
 

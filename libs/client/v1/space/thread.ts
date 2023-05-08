@@ -1,8 +1,4 @@
-import type {
-  ContentCreateRequest,
-  ContentHistoryResponse,
-  ContentSearchParams,
-} from "@/types/common";
+import type { ContentCreateRequest, ContentSearchParams } from "@/types/common";
 import type { ThreadSearchResponse } from "@/types/thread";
 import Client from "..";
 
@@ -46,7 +42,7 @@ class ThreadClient extends Client {
           ? null
           : data.threads.map((thread) => {
               return {
-                last_update_at: new Date(thread.last_update_at),
+                last_update_at: new Date(thread.last_update_at * 1000),
               };
             }),
     });
@@ -55,10 +51,10 @@ class ThreadClient extends Client {
   async getThreadHistoryContent(
     threadId: string,
     historyId: string
-  ): Promise<ContentHistoryResponse> {
+  ): Promise<string> {
     const client = this.getClient();
     const { data } = await client.get(`/${threadId}/history/${historyId}`);
-    return data;
+    return data.content;
   }
 }
 

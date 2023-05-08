@@ -7,9 +7,14 @@ interface CreateSessionOptions {
 }
 
 async function createAuthSession(options: CreateSessionOptions) {
-  const client = createApiServerClient();
-  const { data } = await client.post("/auth/create", options);
-  return data as { ok: boolean };
+  try {
+    const client = createApiServerClient();
+    const { data } = await client.post("/auth/create", options);
+    return data as { ok: boolean };
+  } catch (e) {
+    console.error(e);
+    return { ok: false };
+  }
 }
 
 export default createAuthSession;

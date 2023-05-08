@@ -19,13 +19,13 @@ import PopupNavigator from "./popup";
 
 interface SpaceNavigatorParamList {
   SpaceHomePage: undefined;
-  SpacePage: NavigatorScreenParams<ContentPageParam>;
+  SpacePage: ContentPageParam;
   SpaceWikiNavigator: NavigatorScreenParams<WikiNavigatorParamList>;
   SpaceThreadNavigator: NavigatorScreenParams<ThreadNavigatorParamList>;
   SpacePopupNavigator: NavigatorScreenParams<PopupNavigatorParamList>;
   [key: string]:
     | undefined
-    | NavigatorScreenParams<ContentPageParam>
+    | ContentPageParam
     | NavigatorScreenParams<WikiNavigatorParamList>
     | NavigatorScreenParams<ThreadNavigatorParamList>
     | NavigatorScreenParams<PopupNavigatorParamList>;

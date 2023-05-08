@@ -206,6 +206,9 @@ class UserStore {
       throw new Error(`OIDC Discovery获取结果为null: ${oidcDiscovery}`);
     }
     try {
+      if (this.credential.accessToken === "") {
+        this.setUserInfo(createEmptyUserInfo());
+      }
       const response = await AuthSession.fetchUserInfoAsync(
         {
           accessToken: this.credential.accessToken,

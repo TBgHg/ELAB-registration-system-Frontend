@@ -7,12 +7,14 @@ import type {
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { RootNavigatorParamList, RootNavigatorScreenProps } from "..";
-import type { FormNavigatorParamList } from "./form";
+import { FormNavigator, type FormNavigatorParamList } from "./form";
 import StartPage from "@/pages/application/StartPage";
+import SeatSelectionPage from "@/pages/application/SeatSelectionPage";
+import CodePage from "@/pages/application/CodePage";
 
 interface ApplicationNavigatorParamList {
   ApplicationStartPage: undefined;
-  ApplicationFormPage: NavigatorScreenParams<FormNavigatorParamList>;
+  ApplicationFormNavigator: NavigatorScreenParams<FormNavigatorParamList>;
   ApplicationSeatSelectionPage: undefined;
   ApplicationCodePage: undefined;
   [key: string]: undefined | NavigatorScreenParams<FormNavigatorParamList>;
@@ -30,11 +32,24 @@ const Stack = createNativeStackNavigator<ApplicationNavigatorParamList>();
 
 const ApplicationNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={() => {
+        return {
+          headerShown: false,
+          // 禁止用户通过手势关闭登录页面
+          // gestureEnabled: false,
+          // headerBackButtonMenuEnabled: false,
+          // fullScreenGestureEnabled: false,
+        };
+      }}
+    >
+      <Stack.Screen name="ApplicationStartPage" component={StartPage} />
+      <Stack.Screen name="ApplicationFormNavigator" component={FormNavigator} />
       <Stack.Screen
-        name="ApplicationStartPage"
-        component={StartPage}
-      ></Stack.Screen>
+        name="ApplicationSeatSelectionPage"
+        component={SeatSelectionPage}
+      />
+      <Stack.Screen name="ApplicationCodePage" component={CodePage} />
     </Stack.Navigator>
   );
 };
