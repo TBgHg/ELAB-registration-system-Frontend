@@ -115,9 +115,15 @@ const CodePage = observer(() => {
                 </Text>
 
                 <Text category="p2" style={styles.cardText}>
-                  {`${data.time.toLocaleString("zh-CN", {
-                    timeZone: "Asia/Shanghai",
-                  })}`}
+                  {`${data.time.getFullYear()}年${
+                    data.time.getMonth() + 1
+                  }月${data.time.getDate()}日${" "}${data.time
+                    .getHours()
+                    .toString()
+                    .padStart(2, "0")}:${data.time
+                    .getMinutes()
+                    .toString()
+                    .padStart(2, "0")}`}
                 </Text>
               </Layout>
               <Layout style={styles.qrCodeContainer}>
@@ -128,9 +134,22 @@ const CodePage = observer(() => {
                     size={192}
                   />
                 </Layout>
-                <Layout>
+                <Layout
+                  style={{
+                    alignContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <Text category="s1">
                     {store.user.user.name} ({store.user.user.student_id})
+                  </Text>
+                  <Text
+                    category="s1"
+                    style={{
+                      marginTop: 8,
+                    }}
+                  >
+                    申报组别：{store.user.user.group}
                   </Text>
                 </Layout>
               </Layout>

@@ -159,7 +159,7 @@ class UserStore {
   async fetchExtraInfo() {
     const userClient = new UserClient(this.credential.accessToken);
     const userInfoPromise = userClient
-      .fetchUser(this.jwt.sub)
+      .fetchUser(this.jwt.sub, true)
       .then((userInfo) => {
         this.setUser(userInfo);
       })

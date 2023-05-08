@@ -9,9 +9,32 @@ class UserClient extends Client {
     return client;
   }
 
-  async fetchUser(openid: string): Promise<User> {
+  async fetchUser(openid: string, omitempty?: boolean): Promise<User> {
     const client = this.getClient();
     const { data } = await client.get(`/${openid}`);
+    // 对data进行补正
+    // data当中下列字段属于omitempty，如果为空，则需要补上
+    if (omitempty !== undefined && omitempty) {
+      // 需要补全的字段为：
+      // name, student_id, class_name, group, contact, last_login_at, meta
+      [
+        "name",
+        "student_id",
+        "class_name",
+        "group",
+        "contact",
+        "last_login_at",
+        "meta",
+      ].forEach((key) => {
+        if (data[key] === undefined) {
+          if (key === "group") {
+            data[key] = "电子组";
+          } else {
+            data[key] = "";
+          }
+        }
+      });
+    }
     return data;
   }
 

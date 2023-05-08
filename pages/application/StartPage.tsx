@@ -20,6 +20,7 @@ const StartPage = observer(() => {
   return (
     <Layout level="1" style={styles.root}>
       <StartTopBar />
+      <Divider />
       <ScrollView>
         <Layout style={styles.container}>
           <WelcomeMessage />

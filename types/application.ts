@@ -17,6 +17,13 @@ interface FormContentPageParam {
   preview?: boolean;
 }
 
+type LongTextFormType = keyof LongTextForm;
+
+interface LongTextFormPageParam {
+  preview?: boolean;
+  type: LongTextFormType;
+}
+
 function createEmptyLongTextForm(): LongTextForm {
   return {
     reason: "",
@@ -36,5 +43,11 @@ function createEmptyInterviewRoom(): InterviewRoom {
   };
 }
 
-export type { LongTextForm, InterviewRoom, FormContentPageParam };
+export type {
+  LongTextForm,
+  InterviewRoom,
+  FormContentPageParam,
+  LongTextFormPageParam,
+  LongTextFormType,
+};
 export { createEmptyInterviewRoom, createEmptyLongTextForm };

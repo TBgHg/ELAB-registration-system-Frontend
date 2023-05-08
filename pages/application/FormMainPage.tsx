@@ -5,6 +5,8 @@ import {
   Icon,
   TopNavigationAction,
   Spinner,
+  Button,
+  Divider,
 } from "@ui-kitten/components";
 import NavigationBackAction from "@/components/application/NavigationBackAction";
 import { ScrollView, StyleSheet, View, Alert } from "react-native";
@@ -17,6 +19,7 @@ import { observer } from "mobx-react";
 import { store } from "@/libs/store";
 import UserClient from "@/libs/client/v1/user";
 import { useFocusEffect } from "@react-navigation/native";
+import type { LongTextForm } from "@/types/application";
 
 const styles = StyleSheet.create({
   root: {
@@ -31,6 +34,15 @@ const styles = StyleSheet.create({
   },
   description: {
     marginBottom: 16,
+  },
+  buttonGroup: {
+    borderColor: "#E4E9F2",
+    borderRadius: 8,
+    borderWidth: 1,
+    padding: 8,
+  },
+  button: {
+    marginVertical: 8,
   },
 });
 
@@ -47,6 +59,18 @@ const checkLength = (length: {
     length.contact === 11 &&
     length.student_id === 11
   );
+};
+
+const checkLongTextFormLength = (longTextForm: LongTextForm) => {
+  // 只需获取所有value即可。
+  console.log(longTextForm);
+  const values = Object.values(longTextForm);
+  for (const value of values) {
+    if (value.length === 0) {
+      return false;
+    }
+  }
+  return true;
 };
 
 const handleUserForm = async (
@@ -85,13 +109,17 @@ const FormMainPage = observer(
       React.useCallback(() => {
         const fetchUser = async () => {
           const userClient = new UserClient(store.user.credential.accessToken);
-          const user = await userClient.fetchUser(store.user.user.openid);
+          const fetchedUser = await userClient.fetchUser(
+            store.user.user.openid,
+            true
+          );
+          // 遍历，如果当中有undefined用""替代。
           setUser({
-            name: user.name,
-            class_name: user.class_name,
-            group: user.group,
-            contact: user.contact,
-            student_id: user.student_id,
+            name: fetchedUser.name,
+            class_name: fetchedUser.class_name,
+            group: fetchedUser.group,
+            contact: fetchedUser.contact,
+            student_id: fetchedUser.student_id,
           });
         };
         fetchUser().catch((e) => {
@@ -128,7 +156,10 @@ const FormMainPage = observer(
                   </View>
                 }
                 onPress={() => {
-                  if (!checkLength(length)) {
+                  if (
+                    !checkLength(length) ||
+                    !checkLongTextFormLength(store.user.longTextForm)
+                  ) {
                     Alert.alert("请检查您的表单是否填写完整。");
                     return;
                   }
@@ -149,6 +180,7 @@ const FormMainPage = observer(
             )
           }
         />
+        <Divider />
         <ScrollView>
           <Layout style={styles.container}>
             <Layout>
@@ -162,6 +194,48 @@ const FormMainPage = observer(
               </Text>
             </Layout>
             <Form value={user} setValue={setUser} />
+            <Layout style={styles.buttonGroup}>
+              <Button
+                style={styles.button}
+                onPress={() => {
+                  navigation.navigate("ApplicationFormLongTextPage", {
+                    type: "reason",
+                  });
+
+                  handleUserForm(user).catch(() => {
+                    Alert.alert("保存失败，请检查您的网络连接。");
+                  });
+                }}
+              >
+                编辑申请加入理由
+              </Button>
+              <Button
+                style={styles.button}
+                onPress={() => {
+                  navigation.navigate("ApplicationFormLongTextPage", {
+                    type: "experience",
+                  });
+                  handleUserForm(user).catch(() => {
+                    Alert.alert("保存失败，请检查您的网络连接。");
+                  });
+                }}
+              >
+                编辑个人经历
+              </Button>
+              <Button
+                style={styles.button}
+                onPress={() => {
+                  navigation.navigate("ApplicationFormLongTextPage", {
+                    type: "self_evaluation",
+                  });
+                  handleUserForm(user).catch(() => {
+                    Alert.alert("保存失败，请检查您的网络连接。");
+                  });
+                }}
+              >
+                编辑自我评价
+              </Button>
+            </Layout>
           </Layout>
         </ScrollView>
       </Layout>

@@ -7,7 +7,7 @@ import {
 import React from "react";
 import { observer } from "mobx-react";
 import { store } from "@/libs/store";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const StartTopBar = observer(() => {
@@ -25,7 +25,19 @@ const StartTopBar = observer(() => {
             </View>
           }
           onPress={() => {
-            store.user.clearUserData();
+            Alert.alert("确定要登出吗？", "您仍可重新登录。", [
+              {
+                text: "取消",
+                style: "cancel",
+              },
+              {
+                text: "登出",
+                style: "destructive",
+                onPress: () => {
+                  store.user.clearUserData();
+                },
+              },
+            ]);
           }}
         ></TopNavigationAction>
       }

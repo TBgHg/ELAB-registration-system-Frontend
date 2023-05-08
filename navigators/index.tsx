@@ -14,6 +14,7 @@ import MainNavigator from "./main";
 import { SafeAreaView as RNSACSafeAreaView } from "react-native-safe-area-context";
 import { SafeAreaView as RNSafeAreaView, Platform } from "react-native";
 import { observer } from "mobx-react";
+import { apiEndpoint } from "../constants";
 
 const SafeAreaView =
   Platform.OS === "android" ? RNSACSafeAreaView : RNSafeAreaView;
@@ -38,8 +39,10 @@ const Stack = createNativeStackNavigator<RootNavigatorParamList>();
 
 const RootNavigator = observer(() => {
   const navigation = useNavigation();
+
   useFocusEffect(
     React.useCallback(() => {
+      console.log(apiEndpoint);
       console.log("RootNavigator useFocusEffect");
       console.log(store.user.userStatus);
       if (store.user.userStatus === "unauthorized") {
@@ -47,8 +50,12 @@ const RootNavigator = observer(() => {
           screen: "LoginPage",
         });
       } else if (store.user.userStatus === "not_elab_member") {
-        navigation.navigate("ApplicationNavigator", {
-          screen: "ApplicationStartPage",
+        navigation.reset({
+          routes: [
+            {
+              name: "ApplicationNavigator",
+            },
+          ],
         });
       }
     }, [store.user.userStatus])

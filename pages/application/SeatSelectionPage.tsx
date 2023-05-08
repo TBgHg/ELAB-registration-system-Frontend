@@ -16,6 +16,7 @@ import {
   TopNavigation,
   TopNavigationAction,
   Spinner,
+  Divider,
 } from "@ui-kitten/components";
 
 import type { ApplicationNavigatorScreenProps } from "@/navigators/application";
@@ -159,6 +160,7 @@ const SeatSelectionPage = observer(
           subtitle={isLoading || isValidating ? "正在加载" : "面试场次选择"}
           alignment="center"
         />
+        <Divider />
         <ScrollView
           refreshControl={
             <RefreshControl
