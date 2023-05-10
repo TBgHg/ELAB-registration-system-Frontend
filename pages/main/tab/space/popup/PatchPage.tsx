@@ -14,7 +14,7 @@ import useSWR from "swr";
 import { Alert, StyleSheet, View } from "react-native";
 import { store } from "@/libs/store";
 import SpaceClient from "@/libs/client/v1/space/space";
-import NavigationCloseAction from "@/components/application/NavigationCloseAction";
+import NavigationCloseAction from "@/components/NavigationCloseAction";
 import { useFocusEffect } from "@react-navigation/native";
 
 const styles = StyleSheet.create({

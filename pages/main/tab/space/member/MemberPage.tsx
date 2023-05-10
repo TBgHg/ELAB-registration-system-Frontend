@@ -107,7 +107,10 @@ const MemberPage = observer(
                     flex: 1,
                   }}
                   onPress={() => {
-                    navigation.navigate("SpaceAddMemberPage");
+                    navigation.navigate("SpaceMemberOperationPage", {
+                      type: "invitation",
+                      space: true,
+                    });
                   }}
                 >
                   邀请列表
@@ -117,7 +120,10 @@ const MemberPage = observer(
                     flex: 1,
                   }}
                   onPress={() => {
-                    navigation.navigate("SpaceAddMemberPage");
+                    navigation.navigate("SpaceMemberOperationPage", {
+                      type: "apply",
+                      space: true,
+                    });
                   }}
                 >
                   申请列表
@@ -143,6 +149,32 @@ const MemberPage = observer(
                             }}
                           />
                         )}
+                        onLongPress={() => {
+                          Alert.alert("提示", "您确定要移除该成员吗？", [
+                            {
+                              text: "取消",
+                              style: "cancel",
+                            },
+                            {
+                              text: "确定",
+                              style: "destructive",
+                              onPress: () => {
+                                const client = new MemberClient(
+                                  store.user.credential.accessToken,
+                                  store.space.space.space_id
+                                );
+                                client
+                                  .deleteExistingMember(value.openid)
+                                  .then(async () => {
+                                    return await mutate();
+                                  })
+                                  .catch((err) => {
+                                    console.error(err);
+                                  });
+                              },
+                            },
+                          ]);
+                        }}
                         description={`${
                           value.position === "none"
                             ? "成员"
