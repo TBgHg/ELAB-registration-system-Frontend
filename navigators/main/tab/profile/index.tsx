@@ -23,7 +23,13 @@ const Stack = createNativeStackNavigator<ProfileNavigatorParamList>();
 
 const ProfileNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={() => {
+        return {
+          headerShown: false,
+        };
+      }}
+    >
       <Stack.Screen
         name="ProfileHomePage"
         component={ProfilePage}

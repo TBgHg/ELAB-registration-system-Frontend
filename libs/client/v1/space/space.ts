@@ -39,9 +39,29 @@ class SpaceClient extends Client {
     return data;
   }
 
+  async fetchSpace(id: string): Promise<Space> {
+    const client = this.getClient();
+    const { data } = await client.get(`/${id}`);
+    return data;
+  }
+
   async update(id: string, payload: Partial<Omit<Space, "openid">>) {
     const client = this.getClient();
     const { data } = await client.patch(`/${id}`, payload);
+    return data;
+  }
+
+  async fetchMeta(id: string) {
+    const client = this.getClient();
+    const { data } = await client.get(`/${id}/meta`);
+    return JSON.parse(data.meta);
+  }
+
+  async updateMeta(id: string, meta: any) {
+    const client = this.getClient();
+    const { data } = await client.patch(`/${id}/meta`, {
+      meta: JSON.stringify(meta),
+    });
     return data;
   }
 

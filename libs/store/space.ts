@@ -2,8 +2,8 @@ import { makeAutoObservable } from "mobx";
 
 import { createEmptySpace } from "@/types/space";
 
-import type { Space } from "@/types/space";
 import type { RootStore } from ".";
+import SpaceClient from "@/libs/client/v1/space/space";
 /**
  * 用于存储空间信息。
  */
@@ -19,8 +19,9 @@ class SpaceStore {
    */
   meta?: any = {};
 
-  setSpace(space: Space) {
-    this.space = space;
+  async setSpaceId(id: string) {
+    const client = new SpaceClient(this.rootStore.user.credential.accessToken);
+    this.space = await client.fetchSpace(id);
   }
 
   constructor(rootStore: RootStore) {

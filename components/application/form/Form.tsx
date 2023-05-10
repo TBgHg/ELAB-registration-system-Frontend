@@ -26,11 +26,12 @@ interface FormProps {
       Omit<User, "openid" | "is_elab_member" | "meta" | "email">
     >
   >;
+  loading: boolean;
 }
 
 const groups = ["电子组", "软件组"];
 
-const Form = ({ value, setValue }: FormProps) => {
+const Form = ({ value, setValue, loading }: FormProps) => {
   const [groupIndex, setGroupIndex] = React.useState(new IndexPath(0));
   const displayGroup = groups[groupIndex.row];
   React.useEffect(() => {
@@ -48,6 +49,7 @@ const Form = ({ value, setValue }: FormProps) => {
         placeholder="请输入姓名"
         maxLength={12}
         style={styles.input}
+        disabled={loading}
       />
       <Input
         label="学号"
@@ -60,6 +62,7 @@ const Form = ({ value, setValue }: FormProps) => {
         size="large"
         inputMode="numeric"
         placeholder="请输入学号"
+        disabled={loading}
       />
       <Input
         label="班级"
@@ -71,6 +74,7 @@ const Form = ({ value, setValue }: FormProps) => {
         }}
         size="large"
         placeholder={`请输入班级，如"电2301"`}
+        disabled={loading}
       />
       <Input
         label="联系方式"
@@ -84,6 +88,7 @@ const Form = ({ value, setValue }: FormProps) => {
         size="large"
         caption="支持中国大陆地区的手机号"
         placeholder="请输入手机号，会通过短信发送重要通知"
+        disabled={loading}
       ></Input>
       <Select
         selectedIndex={groupIndex}
@@ -94,6 +99,7 @@ const Form = ({ value, setValue }: FormProps) => {
         label="组别"
         style={styles.input}
         size="large"
+        disabled={loading}
       >
         <SelectItem title="电子组" />
         <SelectItem title="软件组" />

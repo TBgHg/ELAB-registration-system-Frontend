@@ -96,7 +96,7 @@ const FormMainPage = observer(
       contact: "",
       student_id: "",
     });
-    const [isSubmitting, setIsSubmitting] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
     const preview = route.params.preview !== undefined && route.params.preview;
     const [length, setLength] = React.useState({
       name: 0,
@@ -108,6 +108,7 @@ const FormMainPage = observer(
     useFocusEffect(
       React.useCallback(() => {
         const fetchUser = async () => {
+          setLoading(true);
           const userClient = new UserClient(store.user.credential.accessToken);
           const fetchedUser = await userClient.fetchUser(
             store.user.user.openid,
@@ -121,6 +122,7 @@ const FormMainPage = observer(
             contact: fetchedUser.contact,
             student_id: fetchedUser.student_id,
           });
+          setLoading(false);
         };
         fetchUser().catch((e) => {
           console.error(e);
@@ -146,7 +148,7 @@ const FormMainPage = observer(
             preview ? <NavigationCloseAction /> : <NavigationBackAction />
           }
           accessoryRight={
-            isSubmitting ? (
+            loading ? (
               <TopNavigationAction icon={<Spinner />} />
             ) : (
               <TopNavigationAction
@@ -163,13 +165,13 @@ const FormMainPage = observer(
                     Alert.alert("请检查您的表单是否填写完整。");
                     return;
                   }
-                  setIsSubmitting(true);
+                  setLoading(true);
                   handleUserForm(user)
                     .then(async () => {
                       await store.user.fetchExtraInfo();
                     })
                     .then(() => {
-                      setIsSubmitting(false);
+                      setLoading(false);
                       navigation.push("ApplicationSeatSelectionPage");
                     })
                     .catch(() => {
@@ -193,7 +195,7 @@ const FormMainPage = observer(
                   : "填写完成后，请点击右上角的保存按钮。"}
               </Text>
             </Layout>
-            <Form value={user} setValue={setUser} />
+            <Form value={user} setValue={setUser} loading={loading} />
             <Layout style={styles.buttonGroup}>
               <Button
                 style={styles.button}

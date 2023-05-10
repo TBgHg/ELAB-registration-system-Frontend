@@ -49,11 +49,13 @@ const styles = StyleSheet.create({
 interface LoginButtonOnPress {
   discovery: AuthSession.DiscoveryDocument;
   redirectUri: string;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const loginButtonOnPress = async ({
   discovery,
   redirectUri,
+  setLoading,
 }: LoginButtonOnPress) => {
   const oidcRedirectUri = apiEndpoint + "/auth/callback";
   const request = new AuthSession.AuthRequest({
@@ -75,6 +77,7 @@ const loginButtonOnPress = async ({
     Alert.alert("无法启动登录会话", "请检查你的网络连接。");
   }
   store.user.setState(request.state);
+  setLoading(false);
   const result = await request.promptAsync(discovery);
   if (result.type === "success" && result.authentication != null) {
     store.user.setCredential({
@@ -115,6 +118,7 @@ const LoginPage = () => {
     path: "/auth/callback",
   });
   const navigation = useNavigation();
+  const [loading, setLoading] = React.useState(false);
   React.useEffect(() => {
     console.log(store.user.userStatus);
     if (store.user.userStatus === "authorized") {
@@ -148,18 +152,20 @@ const LoginPage = () => {
             </Text>
           </Layout>
           <Button
-            disabled={discovery == null}
+            disabled={discovery == null || loading}
             size="giant"
             onPress={() => {
+              setLoading(true);
               loginButtonOnPress({
                 discovery: discovery as AuthSession.DiscoveryDocument,
                 redirectUri,
+                setLoading,
               }).catch((err) => {
                 console.error(err);
               });
             }}
           >
-            点击登录
+            {discovery == null || loading ? "正在加载..." : "点击登录"}
           </Button>
         </Layout>
       </ScrollView>

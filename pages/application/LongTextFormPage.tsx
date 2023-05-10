@@ -118,6 +118,7 @@ const LongTextFormPage = observer(
                 multiline
                 value={value}
                 onChangeText={setValue}
+                disabled={loading}
                 placeholder="支持使用Markdown语法。您的填写内容将作为考核指标之一。"
                 textStyle={{
                   minHeight: 300,
