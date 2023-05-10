@@ -13,7 +13,7 @@ import {
 } from "@ui-kitten/components";
 import { Alert, StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import HeaderCloseAction from "@/components/old/elab/space/HeaderCloseAction";
+import NavigationCloseAction from "@/components/NavigationCloseAction";
 import { useFocusEffect } from "@react-navigation/native";
 import { store } from "@/libs/store";
 import ApplicationClient from "@/libs/client/v1/application";
@@ -69,7 +69,7 @@ const LongTextFormPage = observer(
           title={`编辑${title}`}
           subtitle="可以使用Markdown语法"
           alignment="center"
-          accessoryLeft={HeaderCloseAction}
+          accessoryLeft={NavigationCloseAction}
           accessoryRight={
             loading ? (
               <TopNavigationAction icon={<Spinner />}></TopNavigationAction>

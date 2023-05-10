@@ -1,4 +1,4 @@
-import NavigationCloseAction from "@/components/application/NavigationCloseAction";
+import NavigationCloseAction from "@/components/NavigationCloseAction";
 import { store } from "@/libs/store";
 import {
   Layout,

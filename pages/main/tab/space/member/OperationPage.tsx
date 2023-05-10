@@ -1,3 +1,4 @@
+import Header from "@/components/space/space/operation/Header";
 import type { SpaceMemberNavigatorScreenProps } from "@/navigators/main/tab/space/popup/member";
 import { Layout, Text } from "@ui-kitten/components";
 import { observer } from "mobx-react";
@@ -25,6 +26,7 @@ const OperationPage = observer(
     const { type, space } = route.params;
     return (
       <Layout style={styles.root}>
+        <Header type={type} space={space} />
         <ScrollView>
           <Layout style={styles.container}>
             <Text category="h2"></Text>

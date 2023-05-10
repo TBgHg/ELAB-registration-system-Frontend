@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
-import { Divider } from "@ui-kitten/components";
+// import { Divider } from "@ui-kitten/components";
 
 const HomePage = () => {
   return (

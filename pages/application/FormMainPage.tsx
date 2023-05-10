@@ -8,13 +8,13 @@ import {
   Button,
   Divider,
 } from "@ui-kitten/components";
-import NavigationBackAction from "@/components/application/NavigationBackAction";
+import NavigationBackAction from "@/components/NavigationBackAction";
 import { ScrollView, StyleSheet, View, Alert } from "react-native";
 import React from "react";
 import type { FormNavigatorScreenProps } from "@/navigators/application/form";
 import type { Group, User } from "@/types/user";
 import Form from "@/components/application/form/Form";
-import NavigationCloseAction from "@/components/application/NavigationCloseAction";
+import NavigationCloseAction from "@/components/NavigationCloseAction";
 import { observer } from "mobx-react";
 import { store } from "@/libs/store";
 import UserClient from "@/libs/client/v1/user";

@@ -9,7 +9,7 @@ import {
 import { Alert, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { store } from "@/libs/store";
-import NavigationBackAction from "@/components/application/NavigationBackAction";
+import NavigationBackAction from "@/components/NavigationBackAction";
 import SpaceClient from "@/libs/client/v1/space/space";
 
 interface MenuItemListProps {

@@ -1,4 +1,4 @@
-import NavigationBackAction from "@/components/application/NavigationBackAction";
+import NavigationBackAction from "@/components/NavigationBackAction";
 import { store } from "@/libs/store";
 import {
   Button,

@@ -11,7 +11,7 @@ import { Layout, Text, TopNavigation } from "@ui-kitten/components";
 import { store } from "@/libs/store";
 import ApplicationClient from "@/libs/client/v1/application";
 import { useFocusEffect } from "@react-navigation/native";
-import NavigationBackAction from "@/components/application/NavigationBackAction";
+import NavigationBackAction from "@/components/NavigationBackAction";
 
 const styles = StyleSheet.create({
   container: {

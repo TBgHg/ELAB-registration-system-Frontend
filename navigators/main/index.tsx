@@ -7,16 +7,15 @@ import type {
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { RootNavigatorKey, RootNavigatorScreenProps } from "..";
-import type { PopupNavigatorParamList } from "./popup";
+// import type { PopupNavigatorParamList } from "./popup";
 import type { TabNavigatorParamList } from "./tab";
 import TabNavigator from "./tab";
 
 interface MainNavigatorParamList {
-  PopupNavigator: NavigatorScreenParams<PopupNavigatorParamList>;
+  // PopupNavigator: NavigatorScreenParams<PopupNavigatorParamList>;
   TabNavigator: NavigatorScreenParams<TabNavigatorParamList>;
-  [key: string]:
-    | NavigatorScreenParams<PopupNavigatorParamList>
-    | NavigatorScreenParams<TabNavigatorParamList>;
+  [key: string]: // | NavigatorScreenParams<PopupNavigatorParamList>
+  NavigatorScreenParams<TabNavigatorParamList>;
 }
 
 type MainNavigatorKey = keyof MainNavigatorParamList & string;

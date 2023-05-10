@@ -23,8 +23,8 @@ import type { ApplicationNavigatorScreenProps } from "@/navigators/application";
 import useSWR from "swr";
 import { store } from "@/libs/store";
 import ApplicationClient from "@/libs/client/v1/application";
-import NavigationBackAction from "@/components/application/NavigationBackAction";
-import DeadLineCountdown from "@/components/old/application/DeadLineCountdown";
+import NavigationBackAction from "@/components/NavigationBackAction";
+import DeadLineCountdown from "@/components/application/seat-selection/DeadlineCountDown";
 import RoomCardGroup from "@/components/application/seat-selection/RoomCardGroup";
 import { useFocusEffect } from "@react-navigation/native";
 
