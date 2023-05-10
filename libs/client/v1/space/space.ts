@@ -8,11 +8,12 @@ class SpaceClient extends Client {
     return client;
   }
 
-  async create(name: string, description?: string) {
+  async create(name: string, description?: string, isPrivate?: boolean) {
     const client = this.getClient();
     const { data } = await client.post("", {
       name,
       description,
+      private: isPrivate,
     });
     return data;
   }

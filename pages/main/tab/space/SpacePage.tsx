@@ -1,11 +1,13 @@
-import NavigationBackAction from "@/components/application/NavigationBackAction";
-import { Divider, Layout, Text, TopNavigation } from "@ui-kitten/components";
+import { Divider, Layout } from "@ui-kitten/components";
 import { observer } from "mobx-react-lite";
-import useSWR from "swr";
+// import useSWR from "swr";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { store } from "@/libs/store";
+import SpacePageHeader from "@/components/space/space/Header";
+import Title from "@/components/space/space/Title";
+import Member from "@/components/space/space/Member";
 
 const styles = StyleSheet.create({
   root: {
@@ -19,6 +21,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    padding: 16,
   },
   description: {
     marginTop: 8,
@@ -28,14 +31,13 @@ const styles = StyleSheet.create({
 const SpacePage = observer(() => {
   return (
     <Layout style={styles.root} level="1">
-      <TopNavigation
-        title="空间"
-        alignment="center"
-        accessoryLeft={NavigationBackAction}
-      />
+      <SpacePageHeader />
       <Divider />
       <ScrollView>
-        <Text>{store.space.space.name}</Text>
+        <Layout>
+          <Title {...store.space.space} />
+          <Member />
+        </Layout>
       </ScrollView>
     </Layout>
   );

@@ -1,8 +1,10 @@
+import type { SpacePosition } from "./space";
+
 interface MemberResponse {
   openid: string;
   name: string;
   avatar: string;
-  position: string;
+  position: SpacePosition;
 }
 
 type InvitationOperation =

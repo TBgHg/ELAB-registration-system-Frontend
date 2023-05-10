@@ -23,7 +23,7 @@ class MemberClient extends Client {
   async fetchMemberList(): Promise<MemberResponse[]> {
     const client = this.getClient();
     const { data } = await client.get(``);
-    return data;
+    return data.members;
   }
 
   async operateMember(request: MemberOperationRequest) {

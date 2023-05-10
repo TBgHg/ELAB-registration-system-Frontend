@@ -9,6 +9,22 @@ class UserClient extends Client {
     return client;
   }
 
+  async searchUser(
+    name?: string,
+    page?: number,
+    size?: number
+  ): Promise<User[]> {
+    const client = this.getClient();
+    const { data } = await client.get("", {
+      params: {
+        name,
+        page,
+        size,
+      },
+    });
+    return data.users;
+  }
+
   async fetchUser(openid: string, omitempty?: boolean): Promise<User> {
     const client = this.getClient();
     const { data } = await client.get(`/${openid}`);

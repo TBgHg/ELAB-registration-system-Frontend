@@ -37,26 +37,31 @@ const Stack = createNativeStackNavigator<PopupNavigatorParamList>();
 
 const PopupNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={() => {
+        return {
+          headerShown: false,
+        };
+      }}
+    >
       <Stack.Screen
-        name="SpaceMemberNavigation"
+        name="SpaceMemberNavigatior"
         component={MemberNavigator}
-        options={{ headerShown: false }}
       ></Stack.Screen>
       <Stack.Screen
         name="SpaceCreateContentPage"
         component={ContentCreatePage}
-        options={{ headerShown: false }}
       ></Stack.Screen>
       <Stack.Screen
         name="SpaceSearchPage"
         component={SearchPage}
-        options={{ headerShown: false }}
       ></Stack.Screen>
       <Stack.Screen
         name="SpacePatchPage"
         component={PatchPage}
-        options={{ headerShown: false }}
+        initialParams={{
+          type: "add",
+        }}
       ></Stack.Screen>
     </Stack.Navigator>
   );

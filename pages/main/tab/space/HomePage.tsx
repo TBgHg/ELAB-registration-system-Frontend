@@ -1,21 +1,13 @@
+import Header from "@/components/space/home/Header";
+import SpaceListItem from "@/components/space/home/SpaceListItem";
 import UserClient from "@/libs/client/v1/user";
 import { store } from "@/libs/store";
 import type { SpaceNavigatorScreenProps } from "@/navigators/main/tab/space";
 import { useFocusEffect } from "@react-navigation/native";
-import {
-  Divider,
-  Layout,
-  ListItem,
-  TopNavigation,
-  Text,
-  OverflowMenu,
-  MenuItem,
-  TopNavigationAction,
-  Icon,
-} from "@ui-kitten/components";
+import { Divider, Layout, Text } from "@ui-kitten/components";
 import { observer } from "mobx-react";
 import React from "react";
-import { Alert, RefreshControl, StyleSheet, View } from "react-native";
+import { Alert, RefreshControl, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import useSWR from "swr";
 
@@ -37,14 +29,8 @@ const styles = StyleSheet.create({
   description: {
     marginTop: 8,
   },
-  listItemTitle: {
-    flex: 1,
-    flexDirection: "column",
-  },
-  tag: {
-    backgroundColor: "#E4E9F2",
-    borderRadius: 8,
-    padding: 4,
+  empty: {
+    padding: 16,
   },
 });
 
@@ -59,7 +45,6 @@ const HomePage = observer(
       }
     );
     const [titleIndex, setTitleIndex] = React.useState(0);
-    const [visible, setVisible] = React.useState(false);
     useFocusEffect(
       React.useCallback(() => {
         setTitleIndex(Math.floor(Math.random() * randomTitle.length));
@@ -71,39 +56,7 @@ const HomePage = observer(
     );
     return (
       <Layout style={styles.root} level="1">
-        <TopNavigation
-          title="空间"
-          alignment="center"
-          accessoryRight={() => (
-            <OverflowMenu
-              anchor={() => {
-                return (
-                  <TopNavigationAction
-                    icon={(props) => (
-                      <View>
-                        <Icon {...props} name="plus" />
-                      </View>
-                    )}
-                    onPress={() => {
-                      setVisible(true);
-                    }}
-                  />
-                );
-              }}
-              visible={visible}
-              // selectedIndex={selectedIndex}
-              onSelect={(index) => {
-                setVisible(false);
-              }}
-              onBackdropPress={() => {
-                setVisible(false);
-              }}
-            >
-              <MenuItem title="创建空间" />
-              <MenuItem title="空间邀请列表" />
-            </OverflowMenu>
-          )}
-        />
+        <Header />
         <Divider />
         <ScrollView
           style={styles.container}
@@ -125,59 +78,25 @@ const HomePage = observer(
               在OneELAB中，科研从空间开始。您可以点击下面已经加入的空间，也可以自己创建一个空间。
             </Text>
           </Layout>
+          <Divider />
           <Layout>
-            {data === undefined
-              ? null
-              : data.map((space, index) => {
-                  return (
-                    <Layout key={space.space_id}>
-                      <ListItem
-                        title={
-                          <Layout style={styles.listItemTitle}>
-                            <Text category="h6" style={{ flex: 1 }}>
-                              {space.name}
-                            </Text>
-                            {space.private ? (
-                              <Layout
-                                style={{
-                                  flex: 1,
-                                  flexDirection: "row",
-                                  paddingVertical: 4,
-                                }}
-                              >
-                                <Layout style={styles.tag}>
-                                  <Text category="c1" appearance="hint">
-                                    未公开空间
-                                  </Text>
-                                </Layout>
-                              </Layout>
-                            ) : null}
-                          </Layout>
-                        }
-                        style={{
-                          flex: 1,
-                        }}
-                        description={
-                          <Layout>
-                            <Text category="c1" appearance="hint">
-                              {space.description}
-                            </Text>
-                          </Layout>
-                        }
-                        onLongPress={() => {
-                          Alert.alert("长按", "长按");
-                        }}
-                        onPress={() => {
-                          store.space.setSpace(space);
-                          navigation.push("SpacePage", {
-                            id: space.space_id,
-                          });
-                        }}
-                      />
-                      {index === data.length - 1 ? null : <Divider />}
-                    </Layout>
-                  );
-                })}
+            {data === undefined || data.length === 0 ? (
+              <Layout style={styles.empty}>
+                <Text category="h5">您似乎没有空间...</Text>
+                <Text style={styles.description} category="p2">
+                  先从加入或创建空间开始吧！
+                </Text>
+              </Layout>
+            ) : (
+              data.map((space, index) => {
+                return (
+                  <Layout key={space.space_id}>
+                    <SpaceListItem space={space} />
+                    {index !== data.length - 1 ? <Divider /> : null}
+                  </Layout>
+                );
+              })
+            )}
           </Layout>
         </ScrollView>
       </Layout>

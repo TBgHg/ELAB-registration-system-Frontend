@@ -9,25 +9,26 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { TabNavigatorKey, TabNavigatorScreenProps } from "..";
 import type { PopupNavigatorParamList } from "./popup";
-import type { ThreadNavigatorParamList } from "./thread";
-import type { WikiNavigatorParamList } from "./wiki";
 import SpacePage from "@/pages/main/tab/space/SpacePage";
 import HomePage from "@/pages/main/tab/space/HomePage";
-import WikiNavigator from "./wiki";
-import ThreadNavigator from "./thread";
 import PopupNavigator from "./popup";
+import type {
+  ContentListPageParam,
+  SpaceContentPageParam,
+} from "@/types/space";
+import ContentPage from "@/pages/main/tab/space/ContentPage";
+import ListPage from "@/pages/main/tab/space/ListPage";
 
 interface SpaceNavigatorParamList {
   SpaceHomePage: undefined;
   SpacePage: ContentPageParam;
-  SpaceWikiNavigator: NavigatorScreenParams<WikiNavigatorParamList>;
-  SpaceThreadNavigator: NavigatorScreenParams<ThreadNavigatorParamList>;
+  SpaceContentPage: SpaceContentPageParam;
+  SpaceContentListPage: ContentListPageParam;
   SpacePopupNavigator: NavigatorScreenParams<PopupNavigatorParamList>;
   [key: string]:
     | undefined
     | ContentPageParam
-    | NavigatorScreenParams<WikiNavigatorParamList>
-    | NavigatorScreenParams<ThreadNavigatorParamList>
+    | ContentListPageParam
     | NavigatorScreenParams<PopupNavigatorParamList>;
 }
 type SpaceNavigatorKey = keyof SpaceNavigatorParamList & string;
@@ -47,20 +48,19 @@ const SpaceNavigator = () => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="SpaceHomePage" component={HomePage}></Stack.Screen>
-      <Stack.Screen name="SpacePage" component={SpacePage}></Stack.Screen>
-      <Stack.Screen
-        name="SpaceWikiNavigator"
-        component={WikiNavigator}
-      ></Stack.Screen>
-      <Stack.Screen
-        name="SpaceThreadNavigator"
-        component={ThreadNavigator}
-      ></Stack.Screen>
+      <Stack.Screen name="SpaceHomePage" component={HomePage} />
+      <Stack.Screen name="SpacePage" component={SpacePage} />
+      <Stack.Screen name="SpaceContentPage" component={ContentPage} />
+      <Stack.Screen name="SpaceListContentPage" component={ListPage} />
       <Stack.Screen
         name="SpacePopupNavigator"
         component={PopupNavigator}
-      ></Stack.Screen>
+        options={() => {
+          return {
+            presentation: "modal",
+          };
+        }}
+      />
     </Stack.Navigator>
   );
 };

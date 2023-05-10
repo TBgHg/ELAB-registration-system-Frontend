@@ -1,3 +1,5 @@
+import type { ContentType } from "./common";
+
 interface Space {
   /**
    * 空间的UUID。
@@ -56,6 +58,22 @@ function createEmptySpace() {
   };
 }
 
+type OperationType = "invitation" | "apply";
+
+interface MemberOperationPageParam {
+  type: OperationType;
+  space: boolean;
+}
+
+interface SpaceContentPageParam {
+  id: string;
+  type: ContentType;
+}
+
+interface ContentListPageParam {
+  type: ContentType;
+}
+
 type SpacePosition = "owner" | "moderator" | "none";
 
 interface SpaceMember {
@@ -70,7 +88,11 @@ export type {
   SpacePatchType,
   SpacePatchParam,
   MemberOperation,
+  OperationType,
   SpaceMember,
   SpacePosition,
+  SpaceContentPageParam,
+  ContentListPageParam,
+  MemberOperationPageParam,
 };
 export { createEmptySpace };
