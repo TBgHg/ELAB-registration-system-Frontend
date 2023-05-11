@@ -1,4 +1,8 @@
-import type { ContentCreateRequest, ContentSearchParams } from "@/types/common";
+import type {
+  ContentCreateRequest,
+  ContentHeadResponse,
+  ContentSearchParams,
+} from "@/types/common";
 import type { WikiSearchResponse } from "@/types/wiki";
 import Client from "..";
 
@@ -15,6 +19,15 @@ class WikiClient extends Client {
   constructor(accessToken: string, spaceId: string) {
     super(accessToken);
     this.spaceId = spaceId;
+  }
+
+  async getWiki(wikiId: string): Promise<ContentHeadResponse> {
+    const client = this.getClient();
+    const { data } = await client.get(`/${wikiId}`);
+    return Object.assign(data, {
+      last_update_at: new Date(data.last_update_at * 1000),
+      summary: JSON.parse(data.meta).summary,
+    });
   }
 
   async createWiki(request: ContentCreateRequest) {
@@ -44,6 +57,15 @@ class WikiClient extends Client {
               };
             }),
       counts: data.counts,
+    });
+  }
+
+  async todayWiki(): Promise<ContentHeadResponse> {
+    const client = this.getClient();
+    const { data } = await client.get(`/today`);
+    return Object.assign(data, {
+      last_update_at: new Date(data.last_update_at * 1000),
+      summary: JSON.parse(data.meta).summary,
     });
   }
 

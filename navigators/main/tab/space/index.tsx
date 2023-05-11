@@ -12,17 +12,16 @@ import type { PopupNavigatorParamList } from "./popup";
 import SpacePage from "@/pages/main/tab/space/SpacePage";
 import HomePage from "@/pages/main/tab/space/HomePage";
 import PopupNavigator from "./popup";
-import type {
-  ContentListPageParam,
-  SpaceContentPageParam,
-} from "@/types/space";
-import ContentPage from "@/pages/main/tab/space/ContentPage";
+import type { ContentListPageParam } from "@/types/space";
+import WikiPage from "@/pages/main/tab/space/WikiPage";
+import ThreadPage from "@/pages/main/tab/space/ThreadPage";
 import ListPage from "@/pages/main/tab/space/ListPage";
 
 interface SpaceNavigatorParamList {
   SpaceHomePage: undefined;
   SpacePage: ContentPageParam;
-  SpaceContentPage: SpaceContentPageParam;
+  SpaceWikiPage: ContentPageParam;
+  SpaceThreadPage: ContentPageParam;
   SpaceContentListPage: ContentListPageParam;
   SpacePopupNavigator: NavigatorScreenParams<PopupNavigatorParamList>;
   [key: string]:
@@ -50,7 +49,8 @@ const SpaceNavigator = () => {
     >
       <Stack.Screen name="SpaceHomePage" component={HomePage} />
       <Stack.Screen name="SpacePage" component={SpacePage} />
-      <Stack.Screen name="SpaceContentPage" component={ContentPage} />
+      <Stack.Screen name="SpaceWikiPage" component={WikiPage} />
+      <Stack.Screen name="SpaceThreadPage" component={ThreadPage} />
       <Stack.Screen name="SpaceListContentPage" component={ListPage} />
       <Stack.Screen
         name="SpacePopupNavigator"

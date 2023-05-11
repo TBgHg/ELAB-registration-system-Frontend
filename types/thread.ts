@@ -1,4 +1,4 @@
-import type { ContentHeadResponse } from "./common";
+import type { Author, ContentHeadResponse } from "./common";
 
 interface Thread {
   thread_id: string;
@@ -15,4 +15,18 @@ interface ThreadCommentCountsResponse {
   counts: number;
 }
 
-export type { Thread, ThreadSearchResponse, ThreadCommentCountsResponse };
+interface CommentHead {
+  comment_id: string;
+  content: string;
+  last_updated_at: Date;
+  author: Author;
+  like_counts: number;
+  likes: boolean;
+}
+
+export type {
+  Thread,
+  ThreadSearchResponse,
+  ThreadCommentCountsResponse,
+  CommentHead,
+};

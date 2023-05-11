@@ -1,4 +1,8 @@
-import type { ContentCreateRequest, ContentSearchParams } from "@/types/common";
+import type {
+  ContentCreateRequest,
+  ContentHeadResponse,
+  ContentSearchParams,
+} from "@/types/common";
 import type { ThreadSearchResponse } from "@/types/thread";
 import Client from "..";
 
@@ -10,6 +14,24 @@ class ThreadClient extends Client {
     client.defaults.baseURL =
       (client.defaults.baseURL as string) + `/space/${this.spaceId}/thread`;
     return client;
+  }
+
+  async getThread(threadId: string): Promise<ContentHeadResponse> {
+    const client = this.getClient();
+    const { data } = await client.get(`/${threadId}`);
+    return Object.assign(data, {
+      last_update_at: new Date(data.last_update_at * 1000),
+      summary: JSON.parse(data.meta).summary,
+    });
+  }
+
+  async todayThread(): Promise<ContentHeadResponse> {
+    const client = this.getClient();
+    const { data } = await client.get(`/today`);
+    return Object.assign(data, {
+      last_update_at: new Date(data.last_update_at * 1000),
+      summary: JSON.parse(data.meta).summary,
+    });
   }
 
   constructor(accessToken: string, spaceId: string) {

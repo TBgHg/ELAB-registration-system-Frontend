@@ -1,17 +1,21 @@
 import type { ContentCreateRequest } from "@/types/common";
+import type { CommentHead } from "@/types/thread";
 import Client from "..";
 
 class CommentClient extends Client {
   threadId: string;
-  constructor(accessToken: string, threadId: string) {
+  spaceId: string;
+  constructor(accessToken: string, spaceId: string, threadId: string) {
     super(accessToken);
     this.threadId = threadId;
+    this.spaceId = spaceId;
   }
 
-  getClient() {
+  getClient(page: number = 1, size: number = 10) {
     const client = super.getClient();
     client.defaults.baseURL =
-      (client.defaults.baseURL as string) + `/thread/${this.threadId}/comment`;
+      (client.defaults.baseURL as string) +
+      `/space/${this.spaceId}/thread/${this.threadId}/comment`;
     return client;
   }
 
@@ -33,10 +37,24 @@ class CommentClient extends Client {
     return data;
   }
 
-  async getComment() {
+  async getComment(
+    page: number = 1,
+    pageSize: number = 10
+  ): Promise<CommentHead[]> {
     const client = this.getClient();
-    const { data } = await client.get(``);
-    return data;
+    const { data } = await client.get(``, {
+      params: {
+        page,
+        page_size: pageSize,
+      },
+    });
+    const { comments }: { comments: any[] } = data;
+    const result = comments.map((comment) => {
+      return Object.assign(comment, {
+        last_update_at: new Date(comment.last_update_at * 1000),
+      });
+    });
+    return result;
   }
 
   async likeComment(commentId: string) {
