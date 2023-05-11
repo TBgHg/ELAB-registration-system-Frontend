@@ -28,7 +28,7 @@ const useComments = (
     makeGetKey(spaceId, threadId, accessToken),
     async ([_spaceId, _threadId, _accessToken, _pageIndex]) => {
       const client = new CommentClient(_accessToken, _spaceId, _threadId);
-      const result = await client.getComment(_pageIndex);
+      const result = await client.getComment(_pageIndex + 1);
       return result;
     }
   );

@@ -1,5 +1,6 @@
 import type {
-  ContentCreateRequest,
+  ContentPatchRequest,
+  ContentCreateResponse,
   ContentHeadResponse,
   ContentSearchParams,
 } from "@/types/common";
@@ -25,6 +26,12 @@ class ThreadClient extends Client {
     });
   }
 
+  async updateThread(threadId: string, request: ContentPatchRequest) {
+    const client = this.getClient();
+    const { data } = await client.patch(`/${threadId}`, request);
+    return data;
+  }
+
   async todayThread(): Promise<ContentHeadResponse> {
     const client = this.getClient();
     const { data } = await client.get(`/today`);
@@ -39,7 +46,9 @@ class ThreadClient extends Client {
     this.spaceId = spaceId;
   }
 
-  async createThread(request: ContentCreateRequest) {
+  async createThread(
+    request: ContentPatchRequest
+  ): Promise<ContentCreateResponse> {
     const client = this.getClient();
     const { data } = await client.post(``, request);
     return data;

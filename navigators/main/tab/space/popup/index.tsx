@@ -16,7 +16,7 @@ import PatchPage from "@/pages/main/tab/space/popup/PatchPage";
 
 interface PopupNavigatorParamList {
   SpaceMemberNavigation: NavigatorScreenParams<SpaceMemberNavigatorParamList>;
-  SpaceCreateContentPage: ContentPatchPageParam;
+  SpacePatchContentPage: ContentPatchPageParam;
   SpacePatchPage: SpacePatchParam;
   SpaceSearchPage: undefined;
   [key: string]:
@@ -49,7 +49,7 @@ const PopupNavigator = () => {
         component={MemberNavigator}
       ></Stack.Screen>
       <Stack.Screen
-        name="SpaceCreateContentPage"
+        name="SpacePatchContentPage"
         component={ContentPatchPage}
       ></Stack.Screen>
       <Stack.Screen

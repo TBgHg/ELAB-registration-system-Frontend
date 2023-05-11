@@ -1,5 +1,6 @@
 import type {
-  ContentCreateRequest,
+  ContentPatchRequest,
+  ContentCreateResponse,
   ContentHeadResponse,
   ContentSearchParams,
 } from "@/types/common";
@@ -21,6 +22,12 @@ class WikiClient extends Client {
     this.spaceId = spaceId;
   }
 
+  async updateWiki(wikiId: string, request: ContentPatchRequest) {
+    const client = this.getClient();
+    const { data } = await client.patch(`/${wikiId}`, request);
+    return data;
+  }
+
   async getWiki(wikiId: string): Promise<ContentHeadResponse> {
     const client = this.getClient();
     const { data } = await client.get(`/${wikiId}`);
@@ -30,7 +37,9 @@ class WikiClient extends Client {
     });
   }
 
-  async createWiki(request: ContentCreateRequest) {
+  async createWiki(
+    request: ContentPatchRequest
+  ): Promise<ContentCreateResponse> {
     const client = this.getClient();
     const { data } = await client.post(``, request);
     return data;

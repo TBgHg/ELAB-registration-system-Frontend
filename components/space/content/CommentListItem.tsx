@@ -1,36 +1,22 @@
 import CommentClient from "@/libs/client/v1/space/comment";
 import { store } from "@/libs/store";
 import type { CommentHead } from "@/types/thread";
-import { Avatar, Icon, Layout, Text } from "@ui-kitten/components";
+import { Icon, Layout } from "@ui-kitten/components";
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
+import type { KeyedMutator } from "swr";
+import AuthorComponent from "./Author";
 import Markdown from "./Markdown";
 
 interface CommentListItemProps {
   comment: CommentHead;
   threadId: string;
-  mutate: () => Promise<CommentHead[]>;
+  mutate: KeyedMutator<CommentHead[][]>;
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  header: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  avatarContainer: {
-    flex: 1,
-    padding: 8,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  author: {
-    padding: 8,
-  },
-  name: {
-    marginBottom: 4,
   },
   like: {
     flex: 1,
@@ -49,32 +35,10 @@ const CommentListItem = ({
   const [laoding, setIsLoading] = React.useState(false);
   return (
     <Layout>
-      <Layout style={styles.header}>
-        <Layout style={styles.avatarContainer}>
-          <Avatar
-            source={{
-              uri: comment.author.avatar,
-            }}
-            size="giant"
-          />
-        </Layout>
-        <Layout style={styles.author}>
-          <Text category="h6" style={styles.name}>
-            {comment.author.name}
-          </Text>
-          <Text category="c1" appearance="hint">
-            {`最后更新于 ${comment.last_updated_at.getFullYear()}年${
-              comment.last_updated_at.getMonth() + 1
-            }月${comment.last_updated_at.getDate()}日 ${comment.last_updated_at
-              .getHours()
-              .toString()
-              .padStart(2, "0")}:${comment.last_updated_at
-              .getMinutes()
-              .toString()
-              .padStart(2, "0")}`}
-          </Text>
-        </Layout>
-      </Layout>
+      <AuthorComponent
+        author={comment.author}
+        lastUpdatedAt={comment.last_updated_at}
+      />
       <Layout style={styles.container}>
         <Markdown content={comment.content} />
       </Layout>
@@ -91,7 +55,10 @@ const CommentListItem = ({
             client
               .likeComment(comment.comment_id)
               .then(async () => {
-                return await mutate();
+                if (mutate === undefined) {
+                  return;
+                }
+                await mutate();
               })
               .then(() => {
                 setIsLoading(false);

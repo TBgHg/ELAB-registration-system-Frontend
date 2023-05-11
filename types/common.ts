@@ -18,7 +18,8 @@ interface ContentPageParam {
 
 interface ContentPatchPageParam {
   contentType: ContentType;
-  pageType: ContentPatchType;
+  patchType: ContentPatchType;
+  id?: string;
 }
 
 interface ContentHeadResponse {
@@ -32,14 +33,19 @@ interface ContentHeadResponse {
   likes: boolean;
 }
 
+interface ContentCreateResponse {
+  content_id: string;
+  history_id: string;
+  ok: boolean;
+}
+
 interface ContentHistoryResponse {
   content: string;
 }
 
 type OrderType = "time_desc" | "like_desc";
 
-interface ContentCreateRequest {
-  space_id: string;
+interface ContentPatchRequest {
   title: string;
   content: string;
 }
@@ -77,10 +83,11 @@ export type {
   ContentPatchPageParam,
   ContentPatchType,
   ContentPageParam,
-  ContentCreateRequest,
+  ContentPatchRequest,
   ContentHeadResponse,
   ContentHistoryResponse,
   ContentSearchParams,
+  ContentCreateResponse,
 };
 
 export { createEmptyContentHeadResponse };

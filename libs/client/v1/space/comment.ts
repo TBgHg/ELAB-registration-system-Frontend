@@ -1,4 +1,4 @@
-import type { ContentCreateRequest } from "@/types/common";
+import type { ContentPatchRequest } from "@/types/common";
 import type { CommentHead } from "@/types/thread";
 import Client from "..";
 
@@ -19,9 +19,11 @@ class CommentClient extends Client {
     return client;
   }
 
-  async createComment(request: ContentCreateRequest) {
+  async createComment(content: string) {
     const client = this.getClient();
-    const { data } = await client.post(``, request);
+    const { data } = await client.post(``, {
+      content,
+    });
     return data;
   }
 
@@ -31,7 +33,7 @@ class CommentClient extends Client {
     return data;
   }
 
-  async updateComment(commentId: string, request: ContentCreateRequest) {
+  async updateComment(commentId: string, request: ContentPatchRequest) {
     const client = this.getClient();
     const { data } = await client.patch(`/${commentId}`, request);
     return data;
