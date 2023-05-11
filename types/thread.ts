@@ -7,7 +7,8 @@ interface Thread {
 }
 
 interface ThreadSearchResponse {
-  threads: null | ContentHeadResponse[];
+  threads: ContentHeadResponse[];
+  counts: number;
 }
 
 interface ThreadCommentCountsResponse {

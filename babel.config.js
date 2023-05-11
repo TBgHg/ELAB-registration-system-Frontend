@@ -16,7 +16,6 @@ module.exports = function (api) {
           alias: {
             "@/pages": "./pages",
             "@/libs": "./libs",
-            "@/lib": "./lib",
             "@/components": "./components",
             "@/types": "./types",
             "@/constants": "./constants",

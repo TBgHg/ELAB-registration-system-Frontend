@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 
-const ContentCreatePage = () => {
+const ContentPatchPage = () => {
   return (
     <View>
       <Text>Create Page</Text>
@@ -9,4 +9,4 @@ const ContentCreatePage = () => {
   );
 };
 
-export default ContentCreatePage;
+export default ContentPatchPage;

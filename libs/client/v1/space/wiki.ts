@@ -37,12 +37,13 @@ class WikiClient extends Client {
     return Object.assign(data, {
       wikis:
         data.wikis === null
-          ? null
+          ? []
           : data.wikis.map((wiki) => {
               return {
                 last_update_at: new Date(wiki.last_update_at * 1000),
               };
             }),
+      counts: data.counts,
     });
   }
 

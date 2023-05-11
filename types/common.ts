@@ -10,15 +10,15 @@ interface ContentTimeInfo {
 }
 
 type ContentType = "wiki" | "thread" | "comment";
-type ContentCreatePageType = "create" | "edit";
+type ContentPatchType = "create" | "edit";
 
 interface ContentPageParam {
   id: string;
 }
 
-interface ContentCreatePageParam {
+interface ContentPatchPageParam {
   contentType: ContentType;
-  pageType: ContentCreatePageType;
+  pageType: ContentPatchType;
 }
 
 interface ContentHeadResponse {
@@ -47,6 +47,7 @@ interface ContentCreateRequest {
 interface ContentSearchParams {
   space_id: string;
   order: OrderType;
+  name: string;
   page: number;
   page_size: number;
 }
@@ -73,7 +74,8 @@ export type {
   OrderType,
   ContentTimeInfo,
   ContentType,
-  ContentCreatePageParam,
+  ContentPatchPageParam,
+  ContentPatchType,
   ContentPageParam,
   ContentCreateRequest,
   ContentHeadResponse,

@@ -7,7 +7,8 @@ interface Wiki {
 }
 
 interface WikiSearchResponse {
-  wikis: null | ContentHeadResponse[];
+  wikis: ContentHeadResponse[];
+  counts: number;
 }
 
 export type { Wiki, WikiSearchResponse };

@@ -1,5 +1,5 @@
 import React from "react";
-import type { ContentCreatePageParam } from "@/types/common";
+import type { ContentPatchPageParam } from "@/types/common";
 import type {
   CompositeScreenProps,
   NavigatorScreenParams,
@@ -9,20 +9,20 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { SpaceNavigatorKey, SpaceNavigatorScreenProps } from "..";
 import type { SpaceMemberNavigatorParamList } from "./member";
 import MemberNavigator from "./member";
-import ContentCreatePage from "@/pages/main/tab/space/popup/ContentCreatePage";
+import ContentPatchPage from "@/pages/main/tab/space/popup/ContentPatchPage";
 import SearchPage from "@/pages/main/tab/space/popup/SearchPage";
 import type { SpacePatchParam } from "@/types/space";
 import PatchPage from "@/pages/main/tab/space/popup/PatchPage";
 
 interface PopupNavigatorParamList {
   SpaceMemberNavigation: NavigatorScreenParams<SpaceMemberNavigatorParamList>;
-  SpaceCreateContentPage: ContentCreatePageParam;
+  SpaceCreateContentPage: ContentPatchPageParam;
   SpacePatchPage: SpacePatchParam;
   SpaceSearchPage: undefined;
   [key: string]:
     | undefined
     | NavigatorScreenParams<SpaceMemberNavigatorParamList>
-    | ContentCreatePageParam
+    | ContentPatchPageParam
     | SpacePatchParam;
 }
 
@@ -50,7 +50,7 @@ const PopupNavigator = () => {
       ></Stack.Screen>
       <Stack.Screen
         name="SpaceCreateContentPage"
-        component={ContentCreatePage}
+        component={ContentPatchPage}
       ></Stack.Screen>
       <Stack.Screen
         name="SpaceSearchPage"

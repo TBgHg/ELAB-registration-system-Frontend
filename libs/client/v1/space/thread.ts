@@ -39,12 +39,13 @@ class ThreadClient extends Client {
     return Object.assign(data, {
       threads:
         data.threads === null
-          ? null
+          ? []
           : data.threads.map((thread) => {
               return {
                 last_update_at: new Date(thread.last_update_at * 1000),
               };
             }),
+      counts: data.counts,
     });
   }
 
