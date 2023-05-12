@@ -51,11 +51,15 @@ class CommentClient extends Client {
       },
     });
     const { comments }: { comments: any[] } = data;
-    const result = comments.map((comment) => {
-      return Object.assign(comment, {
-        last_update_at: new Date(comment.last_update_at * 1000),
-      });
-    });
+    const result =
+      comments === null
+        ? []
+        : comments.map((comment) => {
+            return Object.assign(comment, {
+              last_updated_at: new Date(comment.last_updated_at * 1000),
+            });
+          });
+    console.log(result);
     return result;
   }
 

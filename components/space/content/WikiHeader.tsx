@@ -26,6 +26,7 @@ const WikiHeader = ({ content }: WikiHeaderProps) => {
     <TopNavigation
       title={content === undefined ? "加载中" : content.title}
       subtitle={"知识库"}
+      alignment="center"
       accessoryLeft={NavigationBackAction}
       accessoryRight={
         <OverflowMenu

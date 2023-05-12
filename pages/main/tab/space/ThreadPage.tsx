@@ -1,6 +1,6 @@
 import type { SpaceNavigatorScreenProps } from "@/navigators/main/tab/space";
 import { store } from "@/libs/store";
-import { Layout } from "@ui-kitten/components";
+import { Divider, Layout } from "@ui-kitten/components";
 import { observer } from "mobx-react";
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
@@ -57,6 +57,7 @@ const ThreadPage = observer(
             threadId={id}
             accessToken={accessToken}
           />
+          <Divider />
           <CommentList
             spaceId={spaceId}
             threadId={id}

@@ -21,6 +21,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
+  empty: {
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 const CommentList = ({
@@ -29,11 +34,8 @@ const CommentList = ({
   accessToken,
   isReachEnd,
 }: CommentListProps) => {
-  const { data, isValidating, isLoading, mutate, setSize, size } = useComments(
-    spaceId,
-    threadId,
-    accessToken
-  );
+  const { data, isValidating, isLoading, mutate, setSize, size, error } =
+    useComments(spaceId, threadId, accessToken);
   useFocusEffect(
     React.useCallback(() => {
       mutate().catch((err) => {
@@ -47,35 +49,50 @@ const CommentList = ({
         console.error(err);
       });
     }
-  }, [isReachEnd]);
+  }, [isReachEnd, error]);
   const [input, setInput] = React.useState("");
   return (
     <Layout>
-      <Input
-        value={input}
-        onChangeText={setInput}
-        returnKeyType="send"
-        maxLength={300}
-        multiline
-        placeholder="评论..."
-        onSubmitEditing={() => {
-          const client = new CommentClient(accessToken, spaceId, threadId);
-          client
-            .createComment(input)
-            .then(async () => {
-              await mutate();
-            })
-            .catch((err) => {
-              console.error(err);
-              Alert.alert("评论失败", "请稍后再试");
-            });
-        }}
-      />
+      <Layout style={styles.container}>
+        <Input
+          value={input}
+          onChangeText={setInput}
+          returnKeyType="send"
+          maxLength={300}
+          // multiline
+          placeholder="评论..."
+          onSubmitEditing={() => {
+            console.log("triggered");
+            const client = new CommentClient(accessToken, spaceId, threadId);
+            client
+              .createComment(input)
+              .then(async () => {
+                await mutate();
+              })
+              .then(() => {
+                setInput("");
+              })
+              .catch((err) => {
+                console.error(err);
+                Alert.alert("评论失败", "请稍后再试");
+              });
+          }}
+        />
+      </Layout>
       {isValidating || isLoading ? <Spinner /> : null}
       {data === undefined ? (
-        <Layout style={styles.container}>
-          <Text category="h6">没有评论</Text>
-          <Text>你可以成为沙发！</Text>
+        <Layout style={[styles.container, styles.empty]}>
+          <Text
+            category="h6"
+            style={{
+              marginBottom: 8,
+            }}
+          >
+            没有评论
+          </Text>
+          <Text category="p2" appearance="hint">
+            你可以成为沙发！
+          </Text>
         </Layout>
       ) : (
         data.flat().map((comment) => {

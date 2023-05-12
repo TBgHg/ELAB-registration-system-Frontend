@@ -8,6 +8,7 @@ import { store } from "@/libs/store";
 import SpacePageHeader from "@/components/space/space/Header";
 import Title from "@/components/space/space/Title";
 import Member from "@/components/space/space/Member";
+import Today from "@/components/space/space/Today";
 
 const styles = StyleSheet.create({
   root: {
@@ -37,6 +38,7 @@ const SpacePage = observer(() => {
         <Layout>
           <Title {...store.space.space} />
           <Member />
+          <Today />
         </Layout>
       </ScrollView>
     </Layout>

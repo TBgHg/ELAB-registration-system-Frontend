@@ -14,7 +14,7 @@ import {
 import { observer } from "mobx-react";
 import useSWR from "swr";
 import React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, View } from "react-native";
 import UserClient from "@/libs/client/v1/user";
 import { useFocusEffect } from "@react-navigation/native";
 import MemberClient from "@/libs/client/v1/space/member";
@@ -164,7 +164,43 @@ const AddPage = observer(() => {
                                     <Button
                                       size="small"
                                       appearance="outline"
-                                      onPress={() => {}}
+                                      onPress={() => {
+                                        Alert.alert(
+                                          "邀请成员",
+                                          `确定要邀请${value.user.name}加入吗？`,
+                                          [
+                                            {
+                                              text: "取消",
+                                              style: "cancel",
+                                            },
+                                            {
+                                              text: "确定",
+                                              onPress: () => {
+                                                const client = new MemberClient(
+                                                  accessToken,
+                                                  spaceId
+                                                );
+                                                client
+                                                  .operateMember({
+                                                    openid: value.user.openid,
+                                                    operation:
+                                                      "send_invitation",
+                                                  })
+                                                  .then(async () => {
+                                                    await mutate();
+                                                  })
+                                                  .catch((err) => {
+                                                    console.error(err);
+                                                    Alert.alert(
+                                                      "无法邀请",
+                                                      "这个用户是不是已经被邀请了？"
+                                                    );
+                                                  });
+                                              },
+                                            },
+                                          ]
+                                        );
+                                      }}
                                     >
                                       邀请
                                     </Button>

@@ -12,7 +12,7 @@ const makeGetKey = (
   previousPageData: CommentHead[]
 ) => [string, string, string, number, string] | null) => {
   return (pageIndex: number, previousPageData: CommentHead[]) => {
-    if (previousPageData !== undefined && !(previousPageData.length !== 0)) {
+    if (previousPageData !== null && previousPageData.length === 0) {
       return null;
     }
     return [spaceId, threadId, accessToken, pageIndex + 1, "useComments"];
@@ -28,7 +28,7 @@ const useComments = (
     makeGetKey(spaceId, threadId, accessToken),
     async ([_spaceId, _threadId, _accessToken, _pageIndex]) => {
       const client = new CommentClient(_accessToken, _spaceId, _threadId);
-      const result = await client.getComment(_pageIndex + 1);
+      const result = await client.getComment(_pageIndex);
       return result;
     }
   );

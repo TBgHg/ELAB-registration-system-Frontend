@@ -1,7 +1,7 @@
 import CommentClient from "@/libs/client/v1/space/comment";
 import { store } from "@/libs/store";
 import type { CommentHead } from "@/types/thread";
-import { Icon, Layout } from "@ui-kitten/components";
+import { Divider, Icon, Layout } from "@ui-kitten/components";
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import type { KeyedMutator } from "swr";
@@ -17,13 +17,15 @@ interface CommentListItemProps {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 16,
   },
   like: {
-    flex: 1,
     padding: 4,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
+    marginBottom: 8,
+    marginRight: 8,
+    width: 32,
+    height: 32,
+    alignSelf: "flex-end",
   },
 });
 
@@ -35,11 +37,24 @@ const CommentListItem = ({
   const [laoding, setIsLoading] = React.useState(false);
   return (
     <Layout>
-      <AuthorComponent
-        author={comment.author}
-        lastUpdatedAt={comment.last_updated_at}
-      />
-      <Layout style={styles.container}>
+      <Divider />
+      <Layout
+        style={{
+          padding: 4,
+        }}
+      >
+        <AuthorComponent
+          author={comment.author}
+          lastUpdatedAt={comment.last_updated_at}
+        />
+      </Layout>
+      <Divider />
+      <Layout
+        style={{
+          paddingVertical: 8,
+          paddingHorizontal: 16,
+        }}
+      >
         <Markdown content={comment.content} />
       </Layout>
       <Layout style={styles.like}>
@@ -52,8 +67,10 @@ const CommentListItem = ({
               threadId
             );
             setIsLoading(true);
-            client
-              .likeComment(comment.comment_id)
+            const likePromise = comment.likes
+              ? client.unlikeComment(comment.comment_id)
+              : client.likeComment(comment.comment_id);
+            likePromise
               .then(async () => {
                 if (mutate === undefined) {
                   return;
@@ -71,9 +88,9 @@ const CommentListItem = ({
         >
           <View>
             {comment.likes ? (
-              <Icon name="heart" fill="red" />
+              <Icon name="heart" fill="black" size="small" />
             ) : (
-              <Icon name="heart-outline" fill="red" />
+              <Icon name="heart-outline" fill="black" size="small" />
             )}
           </View>
         </Pressable>

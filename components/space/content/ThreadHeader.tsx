@@ -25,6 +25,7 @@ const ThreadHeader = ({ content }: HeaderProps) => {
   const navigation = useNavigation();
   return (
     <TopNavigation
+      alignment="center"
       title={content === undefined ? "加载中" : content.title}
       subtitle={"帖子"}
       accessoryLeft={NavigationBackAction}

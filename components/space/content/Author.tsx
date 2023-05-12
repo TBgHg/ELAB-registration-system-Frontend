@@ -12,16 +12,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   avatarContainer: {
-    flex: 1,
+    // flex: 1,
     padding: 8,
     alignItems: "center",
     justifyContent: "center",
   },
   author: {
     padding: 8,
+    flex: 1,
+    justifyContent: "center",
   },
   name: {
     marginBottom: 4,
+    fontWeight: "bold",
   },
   like: {
     flex: 1,
@@ -45,12 +48,13 @@ const AuthorComponent = ({ author, lastUpdatedAt }: AuthorComponentProps) => {
           source={{
             uri: author.avatar,
           }}
-          size="giant"
+          size="tiny"
         />
       </Layout>
       <Layout style={styles.author}>
-        <Text category="h6" style={styles.name}>
+        <Text category="p1" style={styles.name}>
           {author.name}
+          {/* Zeithrold */}
         </Text>
         <Text category="c1" appearance="hint">
           {`最后更新于 ${lastUpdatedAt.getFullYear()}年${

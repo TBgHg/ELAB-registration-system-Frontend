@@ -103,10 +103,6 @@ const LoginPage = () => {
     }
   }, []);
   React.useEffect(() => {
-    console.log(store.user.userInfo);
-    console.log(store.user.user);
-  }, [store.user.userInfo, store.user.user]);
-  React.useEffect(() => {
     if (Platform.OS === "android") {
       Linking.addEventListener("url", codeHandler);
     }
@@ -120,7 +116,6 @@ const LoginPage = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = React.useState(false);
   React.useEffect(() => {
-    console.log(store.user.userStatus);
     if (store.user.userStatus === "authorized") {
       navigation.navigate("MainNavigator", {
         screen: "TabNavigator",

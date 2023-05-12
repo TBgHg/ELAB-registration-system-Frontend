@@ -62,7 +62,6 @@ class ApplicationClient extends Client {
   }
 
   async setRoom(roomId: string) {
-    console.log(roomId);
     const client = this.getClient();
     const { data } = await client.post(`/room`, {
       room_id: roomId,

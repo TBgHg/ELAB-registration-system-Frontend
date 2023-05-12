@@ -32,7 +32,7 @@ const PatchHeader = ({
   const navigation = useNavigation();
   const navigationTitle = `${patchType === "create" ? "新增" : "编辑"}${
     contentType === "thread" ? "帖子" : "知识库"
-  }"`;
+  }`;
   const { space } = store.space;
   const { accessToken } = store.user.credential;
   return (

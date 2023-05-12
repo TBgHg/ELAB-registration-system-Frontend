@@ -63,7 +63,6 @@ const checkLength = (length: {
 
 const checkLongTextFormLength = (longTextForm: LongTextForm) => {
   // 只需获取所有value即可。
-  console.log(longTextForm);
   const values = Object.values(longTextForm);
   for (const value of values) {
     if (value.length === 0) {

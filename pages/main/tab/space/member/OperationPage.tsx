@@ -59,8 +59,22 @@ const OperationPage = observer(
           }
         >
           <Title type={type} />
-          {data === undefined ? (
-            <Text>没有...</Text>
+          {data === undefined || data.length === 0 ? (
+            <Layout
+              style={[
+                styles.container,
+                {
+                  flex: 1,
+                  alignContent: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              ]}
+            >
+              <Text appearance="hint" category="p1">
+                找不到内容...
+              </Text>
+            </Layout>
           ) : (
             <Layout>
               {data.map((item, index) => {

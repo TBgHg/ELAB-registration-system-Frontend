@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    marginRight: 8,
+    marginRight: 16,
   },
 });
 
@@ -52,7 +52,7 @@ const Member = observer(() => {
       <Divider />
       <Layout style={styles.container}>
         <Layout>
-          <Text category="p2" style={styles.text}>
+          <Text category="p2" style={styles.text} appearance="hint">
             {isLoading || isValidating
               ? "正在加载"
               : `共${(data as MemberResponse[]).length}名成员`}

@@ -13,17 +13,14 @@ const makeGetKey = (
   query: string,
   accessToken: string
 ): ((
-  pageIndex: number,
+  index: number,
   previousPageData: ContentHeadResponse[]
-) => [ContentType, string, string, number, string] | null) => {
-  return (pageIndex: number, previousPageData: ContentHeadResponse[]) => {
-    if (previousPageData !== undefined && !(previousPageData.length !== 0)) {
+) => [ContentType, string, string, number, string, string] | null) => {
+  return (index: number, previousPageData: ContentHeadResponse[]) => {
+    if (previousPageData !== null && previousPageData.length === 0) {
       return null;
     }
-    if (query === "") {
-      return null;
-    }
-    return [type, spaceId, query, pageIndex + 1, accessToken];
+    return [type, spaceId, query, index + 1, accessToken, "contentList"];
   };
 };
 
@@ -33,14 +30,16 @@ const useContentList = (
   query: string,
   accessToken: string
 ) => {
+  const getKey = makeGetKey(type, spaceId, query, accessToken);
   return useSWRInfinite(
-    makeGetKey(type, spaceId, query, accessToken),
+    getKey,
     async ([_type, _spaceId, _query, _pageIndex, _accessToken]) => {
       const searcher = (internalType: ContentType) => {
         if (internalType === "wiki") {
           const wikiClient = new WikiClient(_accessToken, _spaceId);
           return async (params?: ContentSearchParams) => {
             const result = await wikiClient.searchWiki(params);
+            console.log(result);
             return {
               contents: result.wikis,
               counts: result.counts,

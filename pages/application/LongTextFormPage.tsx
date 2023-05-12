@@ -59,7 +59,6 @@ const LongTextFormPage = observer(
     const [loading, setLoading] = React.useState(false);
     useFocusEffect(
       React.useCallback(() => {
-        console.log(store.user.longTextForm);
         setValue(store.user.longTextForm[type]);
       }, [])
     );

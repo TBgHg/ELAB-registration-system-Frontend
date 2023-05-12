@@ -14,9 +14,10 @@ interface ThreadContentProps {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 16,
   },
   title: {
-    padding: 8,
+    paddingVertical: 8,
   },
 });
 
@@ -27,8 +28,8 @@ const ThreadContent = ({
 }: ThreadContentProps) => {
   const { data, isLoading, isValidating } = useThread(
     spaceId,
-    threadId,
-    accessToken
+    accessToken,
+    threadId
   );
   return (
     <Layout style={styles.container}>

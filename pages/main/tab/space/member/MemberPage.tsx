@@ -47,13 +47,9 @@ const MemberPage = observer(
     );
     useFocusEffect(
       React.useCallback(() => {
-        mutate()
-          .then((value) => {
-            console.log(value);
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+        mutate().catch((err) => {
+          console.error(err);
+        });
       }, [])
     );
     return (

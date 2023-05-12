@@ -20,6 +20,9 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 8,
   },
+  empty: {
+    paddingVertical: 32,
+  },
 });
 
 const HomePage = observer(() => {
@@ -58,6 +61,24 @@ const HomePage = observer(() => {
               <TodayThread thread={todayThread.data} />
             ) : null}
           </Layout>
+          {todayThread.data === undefined && todayWiki.data === undefined ? (
+            <Layout style={styles.empty}>
+              <Text
+                style={[
+                  styles.title,
+                  {
+                    marginBottom: 8,
+                  },
+                ]}
+                category="h5"
+              >
+                第一次使用OneELAB吗？
+              </Text>
+              <Text appearance="hint">
+                点击标签栏下面的「空间」，从空间开始你的科研之旅！
+              </Text>
+            </Layout>
+          ) : null}
         </Layout>
       </ScrollView>
     </Layout>

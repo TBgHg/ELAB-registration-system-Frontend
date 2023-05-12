@@ -8,9 +8,13 @@ import Markdown from "../space/content/Markdown";
 import AuthorComponent from "../space/content/Author";
 
 const styles = StyleSheet.create({
-  containter: {
+  container: {
     flex: 1,
     padding: 16,
+    borderRadius: 4,
+    borderColor: "#E4E9F2",
+    borderWidth: 2,
+    marginVertical: 4,
   },
   tag: {
     marginBottom: 4,
@@ -49,12 +53,12 @@ const TodayWiki = ({ wiki }: TodayWikiProps) => {
         });
       }}
     >
-      <Layout style={styles.containter}>
+      <Layout style={styles.container}>
         <Layout>
-          <Text category="h6" style={styles.tag}>
+          <Text category="s1" style={styles.tag}>
             今天的知识库
           </Text>
-          <Text category="h2" style={styles.title}>
+          <Text category="h4" style={styles.title}>
             {wiki.title}
           </Text>
           <Text category="p1">

@@ -45,7 +45,7 @@ const ContentPatchPage = observer(
     const loading = isValidating || isLoading;
     const pageTitle = `${params.patchType === "create" ? "新增" : "编辑"}${
       params.contentType === "thread" ? "帖子" : "知识库"
-    }"`;
+    }`;
     useFocusEffect(
       React.useCallback(() => {
         mutate()
@@ -62,7 +62,7 @@ const ContentPatchPage = observer(
       }, [])
     );
     return (
-      <Layout style={styles.container}>
+      <Layout style={styles.root}>
         <PatchHeader
           loading={loading || isContentEmpty || isTitleEmpty}
           title={title}

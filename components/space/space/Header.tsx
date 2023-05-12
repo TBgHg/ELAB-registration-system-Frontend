@@ -86,6 +86,50 @@ const MenuItemList = ({ setVisible }: MenuItemListProps) => {
           }}
         />
       ) : null}
+      <MenuItem
+        title={`创建知识库`}
+        onPress={() => {
+          navigation.navigate("MainNavigator", {
+            screen: "TabNavigator",
+            params: {
+              screen: "SpaceNavigator",
+              params: {
+                screen: "SpacePopupNavigator",
+                params: {
+                  screen: "SpacePatchContentPage",
+                  params: {
+                    contentType: "wiki",
+                    patchType: "create",
+                  },
+                },
+              },
+            },
+          });
+          setVisible(false);
+        }}
+      />
+      <MenuItem
+        title={`创建帖子`}
+        onPress={() => {
+          navigation.navigate("MainNavigator", {
+            screen: "TabNavigator",
+            params: {
+              screen: "SpaceNavigator",
+              params: {
+                screen: "SpacePopupNavigator",
+                params: {
+                  screen: "SpacePatchContentPage",
+                  params: {
+                    contentType: "thread",
+                    patchType: "create",
+                  },
+                },
+              },
+            },
+          });
+          setVisible(false);
+        }}
+      />
     </>
   );
 };

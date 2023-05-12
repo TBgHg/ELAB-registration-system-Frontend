@@ -51,7 +51,7 @@ const SpaceNavigator = () => {
       <Stack.Screen name="SpacePage" component={SpacePage} />
       <Stack.Screen name="SpaceWikiPage" component={WikiPage} />
       <Stack.Screen name="SpaceThreadPage" component={ThreadPage} />
-      <Stack.Screen name="SpaceListContentPage" component={ListPage} />
+      <Stack.Screen name="SpaceContentListPage" component={ListPage} />
       <Stack.Screen
         name="SpacePopupNavigator"
         component={PopupNavigator}

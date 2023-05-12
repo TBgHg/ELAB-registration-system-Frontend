@@ -57,17 +57,20 @@ class WikiClient extends Client {
     const { data } = await client.get(``, {
       params: params === undefined ? {} : params,
     });
-    return Object.assign(data, {
-      wikis:
-        data.wikis === null
-          ? []
-          : data.wikis.map((wiki) => {
-              return {
-                last_update_at: new Date(wiki.last_update_at * 1000),
-              };
-            }),
-      counts: data.counts,
-    });
+    const wikis =
+      data.wikis === null
+        ? []
+        : data.wikis.map((wiki) => {
+            const result = Object.assign(wiki, {
+              last_update_at: new Date(wiki.last_update_at * 1000),
+              summary: JSON.parse(wiki.meta).summary,
+            });
+            return result;
+          });
+    return {
+      wikis: wikis as ContentHeadResponse[],
+      counts: data.total as number,
+    };
   }
 
   async todayWiki(): Promise<TodayPostResponse> {
