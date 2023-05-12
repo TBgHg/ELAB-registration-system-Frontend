@@ -3,6 +3,7 @@ import type {
   ContentCreateResponse,
   ContentHeadResponse,
   ContentSearchParams,
+  TodayPostResponse,
 } from "@/types/common";
 import type { ThreadSearchResponse } from "@/types/thread";
 import Client from "..";
@@ -32,7 +33,7 @@ class ThreadClient extends Client {
     return data;
   }
 
-  async todayThread(): Promise<ContentHeadResponse> {
+  async todayThread(): Promise<TodayPostResponse> {
     const client = this.getClient();
     const { data } = await client.get(`/today`);
     return Object.assign(data, {

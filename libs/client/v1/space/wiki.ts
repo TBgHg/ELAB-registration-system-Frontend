@@ -3,6 +3,7 @@ import type {
   ContentCreateResponse,
   ContentHeadResponse,
   ContentSearchParams,
+  TodayPostResponse,
 } from "@/types/common";
 import type { WikiSearchResponse } from "@/types/wiki";
 import Client from "..";
@@ -69,7 +70,7 @@ class WikiClient extends Client {
     });
   }
 
-  async todayWiki(): Promise<ContentHeadResponse> {
+  async todayWiki(): Promise<TodayPostResponse> {
     const client = this.getClient();
     const { data } = await client.get(`/today`);
     return Object.assign(data, {

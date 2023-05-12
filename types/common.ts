@@ -33,6 +33,10 @@ interface ContentHeadResponse {
   likes: boolean;
 }
 
+interface TodayPostResponse extends ContentHeadResponse {
+  space_id: string;
+}
+
 interface ContentCreateResponse {
   content_id: string;
   history_id: string;
@@ -88,6 +92,7 @@ export type {
   ContentHistoryResponse,
   ContentSearchParams,
   ContentCreateResponse,
+  TodayPostResponse,
 };
 
 export { createEmptyContentHeadResponse };
