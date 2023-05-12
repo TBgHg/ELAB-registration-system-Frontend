@@ -48,20 +48,19 @@ const styles = StyleSheet.create({
 
 const AddPage = observer(() => {
   const [query, setQuery] = React.useState("");
+  const spaceId = store.space.space.space_id;
+  const accessToken = store.user.credential.accessToken;
   const { data, isLoading, isValidating, mutate } = useSWR(
-    [store.space.space.name, query, "user_search"],
-    async ([spaceId, query, type]) => {
-      if (query === "") {
+    [spaceId, query, accessToken, "user_search"],
+    async ([_spaceId, _query, _accessToken, type]) => {
+      if (_query === "") {
         return undefined;
       }
-      const userClient = new UserClient(store.user.credential.accessToken);
-      const memberClient = new MemberClient(
-        store.user.credential.accessToken,
-        store.space.space.space_id
-      );
+      const userClient = new UserClient(_accessToken);
+      const memberClient = new MemberClient(_accessToken, _spaceId);
       const [members, users] = await Promise.all([
         memberClient.fetchMemberList(),
-        userClient.searchUser(query),
+        userClient.searchUser(_query),
       ]);
       const result = users.map((value) => {
         let tag = "normal";
@@ -71,9 +70,9 @@ const AddPage = observer(() => {
         if (
           members.findIndex((member) => {
             return value.openid === member.openid;
-          }) > 1
+          }) > -1
         ) {
-          tag = "invited";
+          tag = "member";
         }
         return {
           user: value,
@@ -154,21 +153,23 @@ const AddPage = observer(() => {
                           description={
                             value.tag === "self"
                               ? "自己"
-                              : value.tag === "invited"
+                              : value.tag === "member"
                               ? "成员"
                               : ""
                           }
                           accessoryRight={
                             value.tag === "normal"
-                              ? (props) => (
-                                  <Button
-                                    size="small"
-                                    appearance="outline"
-                                    onPress={() => {}}
-                                  >
-                                    邀请
-                                  </Button>
-                                )
+                              ? (props) => {
+                                  return (
+                                    <Button
+                                      size="small"
+                                      appearance="outline"
+                                      onPress={() => {}}
+                                    >
+                                      邀请
+                                    </Button>
+                                  );
+                                }
                               : undefined
                           }
                         />

@@ -22,13 +22,13 @@ class SpaceClient extends Client {
     name?: string,
     page?: number,
     pageSize?: number
-  ): Promise<Space[]> {
+  ): Promise<Space[] | null> {
     const client = this.getClient();
     const { data } = await client.get("", {
       params: {
         name,
         page,
-        pageSize,
+        page_size: pageSize,
       },
     });
     return data.spaces;

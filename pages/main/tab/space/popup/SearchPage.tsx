@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
     justifyContent: "center",
     alignItems: "center",
+    padding: 16,
   },
   empty: {
     flex: 1,
@@ -62,27 +63,35 @@ const SearchPage = observer(() => {
         alignment="center"
         accessoryLeft={NavigationCloseAction}
       />
-      <ScrollView style={styles.container}>
-        <Input
-          value={query}
-          onChangeText={setQuery}
-          size="large"
-          textStyle={{
-            fontSize: 18,
-          }}
-          accessoryLeft={
-            <View>
-              <Icon name="search-outline" fill="#8F9BB3" />
-            </View>
-          }
-        />
-        <Layout style={styles.spinner}>
-          {isLoading || isValidating ? <Spinner /> : null}
+      <ScrollView>
+        <Layout style={styles.container}>
+          <Input
+            value={query}
+            onChangeText={setQuery}
+            size="large"
+            textStyle={{
+              fontSize: 18,
+            }}
+            accessoryLeft={
+              <View>
+                <Icon name="search-outline" fill="#8F9BB3" />
+              </View>
+            }
+          />
         </Layout>
+        {isLoading || isValidating ? (
+          <Layout style={styles.spinner}>
+            <Spinner />
+          </Layout>
+        ) : null}
         <Layout>
           {data === undefined ? (
             <Layout style={styles.empty}>
               <Text appearance="hint">在搜索栏输入以开始...</Text>
+            </Layout>
+          ) : data === null ? (
+            <Layout style={styles.empty}>
+              <Text appearance="hint">找不到空间...</Text>
             </Layout>
           ) : (
             data.map((space) => {

@@ -1,5 +1,5 @@
 import type { TodayPostResponse } from "@/types/common";
-import Client from ".";
+import Client from "@/libs/client/v1";
 
 class TodayClient extends Client {
   getClient() {
