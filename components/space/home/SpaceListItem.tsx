@@ -62,6 +62,9 @@ const SpaceListItem = observer(({ space }: SpaceListItemProps) => {
         store.space
           .setSpaceId(space.space_id)
           .then(() => {
+            if (navigation.canGoBack()) {
+              navigation.goBack();
+            }
             navigation.navigate("SpacePage");
           })
           .catch((err) => {

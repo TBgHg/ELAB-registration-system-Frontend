@@ -15,6 +15,12 @@ const PlusIcon = (props) => (
   </View>
 );
 
+const SearchIcon = (props) => (
+  <View>
+    <Icon {...props} name="search-outline" color="black" />
+  </View>
+);
+
 const Header = () => {
   const navigation = useNavigation();
   const [visible, setVisible] = React.useState(false);
@@ -22,6 +28,25 @@ const Header = () => {
     <TopNavigation
       title="空间"
       alignment="center"
+      accessoryLeft={
+        <TopNavigationAction
+          icon={SearchIcon}
+          onPress={() => {
+            navigation.navigate("MainNavigator", {
+              screen: "TabNavigator",
+              params: {
+                screen: "SpaceNavigator",
+                params: {
+                  screen: "SpacePopupNavigator",
+                  params: {
+                    screen: "SpaceSearchPage",
+                  },
+                },
+              },
+            });
+          }}
+        />
+      }
       accessoryRight={() => (
         <OverflowMenu
           anchor={() => {
@@ -63,7 +88,54 @@ const Header = () => {
               });
             }}
           />
-          <MenuItem title="空间邀请列表" />
+          <MenuItem
+            title="空间邀请列表"
+            onPress={() => {
+              navigation.navigate("MainNavigator", {
+                screen: "TabNavigator",
+                params: {
+                  screen: "SpaceNavigator",
+                  params: {
+                    screen: "SpacePopupNavigator",
+                    params: {
+                      screen: "SpaceMemberNavigatior",
+                      params: {
+                        screen: "SpaceMemberOperationPage",
+                        params: {
+                          type: "invitation",
+                          space: false,
+                        },
+                      },
+                    },
+                  },
+                },
+              });
+            }}
+          />
+          <MenuItem
+            title="空间申请列表"
+            onPress={() => {
+              navigation.navigate("MainNavigator", {
+                screen: "TabNavigator",
+                params: {
+                  screen: "SpaceNavigator",
+                  params: {
+                    screen: "SpacePopupNavigator",
+                    params: {
+                      screen: "SpaceMemberNavigatior",
+                      params: {
+                        screen: "SpaceMemberOperationPage",
+                        params: {
+                          type: "apply",
+                          space: false,
+                        },
+                      },
+                    },
+                  },
+                },
+              });
+            }}
+          />
         </OverflowMenu>
       )}
     />
