@@ -5,11 +5,22 @@ import RenderHTML from "react-native-render-html";
 
 interface MarkdownProps {
   content: string;
+  summary?: boolean;
 }
 
-const Markdown = ({ content }: MarkdownProps) => {
+const Markdown = ({ content, summary }: MarkdownProps) => {
   const { width } = useWindowDimensions();
-  return <RenderHTML contentWidth={width} source={{ html: marked(content) }} />;
+  return (
+    <RenderHTML
+      ignoredStyles={
+        summary !== undefined && summary
+          ? ["fontSize", "fontFamily", "fontStyle", "fontWeight"]
+          : undefined
+      }
+      contentWidth={width}
+      source={{ html: marked(content) }}
+    />
+  );
 };
 
 export default Markdown;
